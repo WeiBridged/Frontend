@@ -8,7 +8,6 @@ import HomeWrap from "./pages/HomeWrap";
 
 import MobileDetected from "./pages/MobileDetected";
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 const MyContext = React.createContext();
 
 function App() {
@@ -37,19 +36,16 @@ function App() {
     <DataContext.Provider value={{ userAccountAddress: userAccountAddress }}>
       <div>
         {/* {isMobile ? "" : <Navbar />} */}
-     
-          {isMobile ? (
-            <MobileDetected />
-          ) : (
-            <Routes>
-              <Route path="/" element={<HomeWrap />} />
-              {/* <Route path="/about" element={<About />} /> */}
-              <Route path="/error" element={<MobileDetected />} />
-            </Routes>
-          )}
-      
-      
-        {/* <Footer /> */}
+
+        {isMobile ? (
+          <MobileDetected />
+        ) : (
+          <Routes>
+            <Route path="/" element={<HomeWrap />} />
+            {/* <Route path="/about" element={<About />} /> */}
+            <Route path="/error" element={<MobileDetected />} />
+          </Routes>
+        )}
       </div>
     </DataContext.Provider>
   );
