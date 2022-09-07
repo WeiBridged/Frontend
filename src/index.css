@@ -1,0 +1,222 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Prompt", sans-serif;
+}
+
+body {
+  background:no-repeat center center fixed;
+  background-image:
+  linear-gradient(315deg,#000 0,#414141 100%)
+}
+
+
+.box-content {
+  padding: 16px;
+}
+.box-header {
+  width: 100%;
+}
+
+.box-header>span {
+  display: flex;
+  justify-content: space-between;
+}
+
+.to-add{
+  font-size: 13px; padding: 20px;
+}
+
+.metamask-img{
+  width: 25px; height: 25px; margin-right: 5px;
+}
+.block-explorer{
+  width: 25px; height: 25px;
+}
+
+
+.banner {
+ background-image: url("./assets/svg/weibridge_logo2.svg"); 
+ background-color: #1a1a1c;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: 340px;
+    border-radius: 8px;
+    height: 140px;
+}
+
+
+.footer-box {
+  background-color: #1a1a1c!important;
+  border-radius: 4px;
+  color: #b4b4b7;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  margin-top: 20px;
+  max-width: 492px;
+  width: 95%;}
+
+main {
+  margin-top: 7rem;
+  text-align: center; top: 20px;
+  margin-bottom:100px;
+ 
+ 
+}
+
+.return-address>input {
+  background-color: transparent;
+  border-style: none;
+  color: inherit;
+  cursor: pointer;
+  outline: none;
+  padding-left: 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.footer-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-around;
+  padding: 20px 20px 0;
+}
+
+
+
+.add-network {
+  align-items: center;
+  background-color: hsla(0,0%,100%,.15);
+  border: 0;
+  border-radius: 25px;
+  color: #a9a9a9;
+  cursor: pointer;
+  display: flex;
+  height: 36px;
+  justify-content: space-evenly;
+  min-width: 45%;
+  padding: 10px;
+}
+
+
+.return-address {
+  align-items: center;
+  background-color: #2b2b2b;
+  color: #959595;
+  cursor: pointer;
+  display: flex;
+  height: 45px;
+  margin-top: 20px;
+}
+
+
+
+.tooltip {
+  bottom: 50%;
+  left: 50%;
+  position: relative;
+}
+
+/* @media screen and (max-width: 1010px) */
+.app{
+  align-items: center;
+  display: flex;
+  font-family: Avenir,Helvetica,Arial,sans-serif;
+  justify-content: space-around;
+  padding-top: 5%;
+  padding-bottom: 10%;
+  padding-top: 10%;
+}
+
+
+.container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+
+}
+
+
+.box {
+  background-color: #1a1a1c!important;
+    border-radius: 8px;
+    box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+    max-width: 492px;
+    width: 95%;
+}
+.btn-light {
+  color: #fff;
+  background-color: #0e1340;
+  border-color: #0e1340;
+  margin-left: 20px;
+  width: 140px;
+}
+.btn-light:hover {
+  color: #fff;
+  background-color: #3c4278;
+  border-color: #0e1340;
+}
+
+h1,
+h2,
+h3,
+p {
+  color: #0e1340;
+}
+
+.modal-content {
+  background-color: white;
+  color: #0e1340;
+  border-radius: 15px;
+  border: 2px solid #3c4278;
+}
+.closeButton {
+  color: white !important;
+}
+
+.why-use-weth-link {
+  color: #0e1340;
+}
+
+.why-use-weth-link:hover {
+  color: #95bcf0;
+}
+
+.metamask-addr-container {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  font-size: 12px;
+}
+
+.btn-light.mm {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  color: #0e1340;
+  background-color: #fff;
+  border-color: #3c4278;
+  border-radius: 15px;
+  margin-left: 20px;
+  width: 160px;
+  font-size: 14px;
+}
+
+.btn-light.mm:hover {
+  color: #0e1340;
+  background-color: #d3d8ee;
+  border-color: #3c4278;
+}
+
