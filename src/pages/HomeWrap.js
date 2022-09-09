@@ -43,8 +43,8 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
       .catch((err) => console.error(err));
   };
 
-  console.log(estimateSwapData, "est swap data");
-  console.log(getTransactionData, "gettransaction data");
+  console.log(estimateSwapData, "BÄÄ est swap data");
+  console.log(getTransactionData, "BÄÄ gettransaction data");
   return (
     <body>
       <div id="root">
