@@ -8,6 +8,10 @@ import HomeWrap from "./pages/HomeWrap";
 
 import MobileDetected from "./pages/MobileDetected";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Bridge from "./pages/Bridge";
+import LimitOrders from "./pages/LimitOrders";
+
 const MyContext = React.createContext();
 
 function App() {
@@ -34,19 +38,16 @@ function App() {
 
   return (
     <DataContext.Provider value={{ userAccountAddress: userAccountAddress }}>
-      <div>
-        {/* {isMobile ? "" : <Navbar />} */}
-
-        {isMobile ? (
-          <MobileDetected />
-        ) : (
-          <Routes>
-            <Route path="/" element={<HomeWrap />} />
-            {/* <Route path="/about" element={<About />} /> */}
-            <Route path="/error" element={<MobileDetected />} />
-          </Routes>
-        )}
-      </div>
+      <body class="stretched device-xl bg-white no-transition">
+        {" "}
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<HomeWrap />} />
+          <Route path="/bridge" element={<Bridge />} />
+          <Route path="/limitorders" element={<LimitOrders />} />
+        </Routes>
+        <Footer></Footer>
+      </body>
     </DataContext.Provider>
   );
 }

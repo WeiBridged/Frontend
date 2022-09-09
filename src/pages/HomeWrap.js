@@ -45,62 +45,95 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
 
   console.log(estimateSwapData, "BÄÄ est swap data");
   console.log(getTransactionData, "BÄÄ gettransaction data");
+
   return (
-    <body>
-      <div id="root">
-        <div class="app">
-          <div class="container">
-            <div class="box">
-              <div class="banner"></div>
-              <div class="box-content">
-                <div class="box-header"></div>{" "}
-                <span>
-                  <span>Select Network</span>
-                </span>
-              </div>{" "}
-            </div>{" "}
-            <div class="container">
-              <div class="footer-box">
-                <div class="to-add">
-                  Use the buttons below to bridge between assets in your browser
-                  wallet extension
-                  <div class="footer-buttons">
-                    <button class="add-network">Bridge</button>
-                    <button class="add-network">View Status</button>
-                  </div>
-                </div>
-              </div>
-              <div class="footer-box">
-                <div style={{ fontSize: 13, padding: 20 }}>
-                  Once you are done with the bridging, feel free to send some
-                  funds to this address.
-                  <div class="return-address">
-                    <div class="tooltip">
-                      <span class="tooltiptext" id="tooltip-text">
-                        Copy to clipboard
-                      </span>
-                    </div>
-                    <input
-                      id="return-address-input"
-                      disabled=""
-                      value="0x2352D20fC81225c8ECD8f6FaA1B37F24FEd450c9"
-                    />
-                    <span style={{ marginRight: 10, marginTop: 2 }}>
-                      <img
-                        alt="copy"
-                        src="https://img.icons8.com/fluency-systems-regular/48/ffffff/copy.png"
-                        style={{ width: 20, height: 20 }}
-                      />
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>{" "}
+    <>
+      <div className="container-fluid m-0 py-2 bg-black align-middle text-center text-banner">
+        <a href="/#/" className="text-white">
+          Try out the WeiBridged platform today!
+        </a>
+      </div>
+      <div className="container-fluid text-white text-center page-top bg-top-app-market">
+        <div className="container">
+          <h1 className="top-page col-12 offset-md-7 col-md-5">WeiBridged</h1>
         </div>
       </div>
-    </body>
+      <div className="container-fluid text-white bg-sandstorm d-flex flex-column align-items-center p-3">
+        <div className="container">
+          <div className="cell-lg-full ingress-content">
+            <h4>Connect. Bridge. Done.</h4>
+            <p>
+              WeiBridged is a secure and well-trusted bridge platform that will
+              enable you to reach over 5 different chains in the crypto space.
+              Using the WeiBridged is as easy as one two three!
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="container py-5 app-market">
+        <div class="alert alert-secondary" role="alert">
+          Here u can have a thing that Here u can have a thing that Here u can
+          have a thing that Here u can have a thing that Here u can have a thing
+          that Here u can have a thing that Here u can have a thing that Here u
+          can have a thing that Here u can have a thing that
+        </div>
+        <div className="row">
+          <div className="col">
+            <article
+              id="post-16170"
+              className="clearfix post-16170 page type-page status-publish hentry"
+              role="article"
+            >
+              <section className="post_content">
+                <div className="vc_row wpb_row vc_row-fluid">
+                  <div className="wpb_column vc_column_container vc_col-sm-12">
+                    <div className="vc_column-inner">
+                      <div className="wpb_wrapper">
+                        <div className="wpb_text_column wpb_content_element ">
+                          <div className="wpb_wrapper">
+                            <h4 className="p1">
+                              <span className="s1">Explore Chains</span>
+                            </h4>
+                            <p className="p2">
+                              WeiBridged is a secure and well-trusted bridge
+                              platform that will enable you to reach over 5
+                              different chains in the crypto space. Using the
+                              WeiBridged is as easy as one two three! WeiBridged
+                              is a secure and well-trusted bridge platform that
+                              will enable you to reach over 5 different chains
+                              in the crypto space. Using the WeiBridged is as
+                              easy as one two three!
+                            </p>
+                            <h4 className="p1">We got your back!</h4>
+                            <p className="p1">
+                              WeiBridged is a secure and well-trusted bridge
+                              platform that will enable you to reach over 5
+                              different chains in the crypto space. Using the
+                              WeiBridged is as easy as one two three! WeiBridged
+                              is a secure and well-trusted bridge platform that
+                              will enable you to reach over 5 different chains
+                              in the crypto space. Using the WeiBridged is as
+                              easy as one two three! WeiBridged is a secure and
+                              well-trusted bridge platform that will enable you
+                              to reach over 5 different chains in the crypto
+                              space. Using the WeiBridged is as easy as one two
+                              three!
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <footer>
+                <p className="clearfix"></p>
+              </footer>
+            </article>
+          </div>
+        </div>
+      </div>
+    </>
   );
-}
-{
 }
