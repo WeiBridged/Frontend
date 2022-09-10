@@ -40,7 +40,13 @@ function App() {
     <DataContext.Provider value={{ userAccountAddress: userAccountAddress }}>
       <body class="stretched device-xl bg-white no-transition">
         {" "}
-        <Navbar />
+        <button onClick={handleConnectMetamask} className="btn-btn primary">
+          {userAccountAddress ? connectedAddrValue : "Connect Wallet"}
+        </button>
+        <Navbar
+          handleConnectMetamask={handleConnectMetamask}
+          connectedAddrValue={connectedAddrValue}
+        />
         <Routes>
           <Route path="/" element={<HomeWrap />} />
           <Route path="/bridge" element={<Bridge />} />
