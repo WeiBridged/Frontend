@@ -1,6 +1,11 @@
 import { NavLink } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({
+  handleConnectMetamask,
+  connectedAddrValue,
+  userAccountAddress,
+}) => {
+  console.log(connectedAddrValue, "user", userAccountAddress);
   return (
     <div class="container-fluid border-bottom">
       <nav class="container position-relative navbar navbar-expand-lg navbar-light">

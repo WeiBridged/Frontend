@@ -86,11 +86,18 @@ export default function Bridge({ interval, searchText }) {
     <>
       <div className="container-fluid m-0 py-2 bg-black align-middle text-center text-banner">
         <button
+          onClick={() => onTabBarClick("erc20")}
+          className="btn transparent"
+          style={showERC20Bridge ? { backgroundColor: "cadetblue" } : null}
+        >
+          WeiBridged
+        </button>
+        <button
           onClick={() => onTabBarClick("chainlink")}
           className="btn transparent"
           style={showChainlinkBridge ? { backgroundColor: "cadetblue" } : null}
         >
-          Chainlink Bridge
+          Mock Chainlink Keepers Bridge
         </button>
         <button
           onClick={() => onTabBarClick("debridge")}
@@ -98,13 +105,6 @@ export default function Bridge({ interval, searchText }) {
           style={showDeBridge ? { backgroundColor: "cadetblue" } : null}
         >
           deBridge
-        </button>
-        <button
-          onClick={() => onTabBarClick("erc20")}
-          className="btn transparent"
-          style={showERC20Bridge ? { backgroundColor: "cadetblue" } : null}
-        >
-          ERC20 Bridge
         </button>
       </div>
       {whichBridgeToRender()}

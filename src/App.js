@@ -19,6 +19,7 @@ function App() {
   const [connectedAddrValue, setConnectedAddrValue] = useState("");
 
   const handleConnectMetamask = async () => {
+    console.log("I AM TRYIING ");
     let that = this;
     const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
     const network = await web3.eth.net.getNetworkType();
@@ -40,12 +41,16 @@ function App() {
     <DataContext.Provider value={{ userAccountAddress: userAccountAddress }}>
       <body class="stretched device-xl bg-white no-transition">
         {" "}
-        <button onClick={handleConnectMetamask} className="btn-btn primary">
+        <button
+          onClick={() => handleConnectMetamask()}
+          className="btn-light mm"
+        >
           {userAccountAddress ? connectedAddrValue : "Connect Wallet"}
         </button>
         <Navbar
           handleConnectMetamask={handleConnectMetamask}
           connectedAddrValue={connectedAddrValue}
+          userAccountAddress={userAccountAddress}
         />
         <Routes>
           <Route path="/" element={<HomeWrap />} />

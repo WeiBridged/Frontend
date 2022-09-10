@@ -216,3 +216,31 @@ a {
   color: #212529;
   font-size: 18px;
 }
+
+.metamask-addr-container {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  font-size: 12px;
+}
+
+.btn-light.mm {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  color: #0e1340;
+  background-color: #fff;
+  border-color: #3c4278;
+  border-radius: 15px;
+  margin-left: 20px;
+  width: 160px;
+  font-size: 14px;
+}
+
+.btn-light.mm:hover {
+  color: #0e1340;
+  background-color: #d3d8ee;
+  border-color: #3c4278;
+}
