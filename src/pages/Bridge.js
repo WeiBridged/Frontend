@@ -1,101 +1,113 @@
 import React, { useState, useEffect } from "react";
+import Select from "react-select";
+import polygonIcon from "../assets/icons/polygon.svg";
+import ChainlinkBridge from "../components/ChainlinkBridge";
+import DeBridge from "../components/DeBridge";
+import ERC20Bridge from "../components/ERC20Bridge";
+function YourIcon() {
+  return <img src={polygonIcon} width={20} height={20}></img>;
+}
 
+const chainOptions = [
+  {
+    value: "80001",
+    label: (
+      <>
+        <YourIcon /> Polygon Mumbai
+      </>
+    ),
+    color: "#00B8D9",
+    isFixed: true,
+  },
+  {
+    value: "420",
+    label: (
+      <>
+        <YourIcon /> Optimism Görli Testnet
+      </>
+    ),
+    color: "#0052CC",
+  },
+  {
+    value: "420",
+    label: (
+      <>
+        <YourIcon /> Ethereum Görli
+      </>
+    ),
+    color: "#5243AA",
+  },
+];
 export default function Bridge({ interval, searchText }) {
   const [estimateSwapData, setEstimateSwapData] = useState({});
-  const [getTransactionData, setGetTransactionData] = useState({});
+  const [selectedFromChain, setSelectedFromChain] = useState({});
+  const [selectedToChain, setSelectedToChain] = useState({});
+  const [selectedFromToken, setSelectedFromToken] = useState({});
+  const [showChainlinkBridge, setShowChainlinkBridge] = useState(false);
+  const [showDeBridge, setShowDeBridge] = useState(false);
+  const [showERC20Bridge, setShowERC20Bridge] = useState(true);
+
+  const [selectedToToken, setSelectedToToken] = useState({});
+
+  const whichBridgeToRender = () => {
+    if (showChainlinkBridge) {
+      console.log("inside chainlink");
+
+      return <ChainlinkBridge></ChainlinkBridge>;
+    } else if (showERC20Bridge) {
+      console.log("inside erc20");
+
+      return <ERC20Bridge></ERC20Bridge>;
+    } else {
+      console.log("inside debridge");
+      return <DeBridge></DeBridge>;
+    }
+  };
+
+  const onTabBarClick = (type) => {
+    if (type === "chainlink") {
+      setShowDeBridge(false);
+      setShowERC20Bridge(false);
+      setShowChainlinkBridge(true);
+    } else if (type === "erc20") {
+      console.log("inside erc20");
+      setShowDeBridge(false);
+      setShowERC20Bridge(true);
+      setShowChainlinkBridge(false);
+    } else {
+      console.log("inside debridge");
+      setShowDeBridge(true);
+      setShowERC20Bridge(false);
+      setShowChainlinkBridge(false);
+    }
+  };
 
   return (
     <>
       <div className="container-fluid m-0 py-2 bg-black align-middle text-center text-banner">
-        <a href="/#/" className="text-white">
-          Start to Bridge
-        </a>
+        <button
+          onClick={() => onTabBarClick("chainlink")}
+          className="btn transparent"
+          style={showChainlinkBridge ? { backgroundColor: "cadetblue" } : null}
+        >
+          Chainlink Bridge
+        </button>
+        <button
+          onClick={() => onTabBarClick("debridge")}
+          className="btn transparent"
+          style={showDeBridge ? { backgroundColor: "cadetblue" } : null}
+        >
+          deBridge
+        </button>
+        <button
+          onClick={() => onTabBarClick("erc20")}
+          className="btn transparent"
+          style={showERC20Bridge ? { backgroundColor: "cadetblue" } : null}
+        >
+          ERC20 Bridge
+        </button>
       </div>
-      <div className="container py-5 app-market">
-        <div class="alert alert-secondary" role="alert">
-          <div className="row p-1">
-            <label>From</label>
-            <input
-              class="sc-bGbJRg iBXRhG"
-              inputmode="decimal"
-              title="Token Amount"
-              autocomplete="off"
-              autocorrect="off"
-              type="text"
-              pattern="^[0-9]*[.,]?[0-9]*$"
-              placeholder="0.0"
-              minlength="1"
-              maxlength="79"
-              spellcheck="false"
-            />{" "}
-            <div className="col">
-              {" "}
-              <label for="cars">Coin/Token</label>
-              <select class="form-select" aria-label="Default select example">
-                <option selected>Coin</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
-            </div>
-            <div className="col">
-              {" "}
-              <label for="cars">Network/Chain</label>
-              <select class="form-select" aria-label="Default select example">
-                <option selected>Network</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
-            </div>
-          </div>
-        </div>{" "}
-        <div class="alert alert-secondary" role="alert">
-          <div className="row p-1">
-            <label>To</label>
-            <input
-              class="sc-bGbJRg iBXRhG"
-              inputmode="decimal"
-              title="Token Amount"
-              autocomplete="off"
-              autocorrect="off"
-              type="text"
-              pattern="^[0-9]*[.,]?[0-9]*$"
-              placeholder="0.0"
-              minlength="1"
-              maxlength="79"
-              spellcheck="false"
-            />{" "}
-            <div className="col">
-              {" "}
-              <label for="cars">Coin/Token</label>
-              <select class="form-select" aria-label="Default select example">
-                <option selected>Coin</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
-            </div>
-            <div className="col">
-              {" "}
-              <label for="cars">Network/Chain</label>
-              <select class="form-select" aria-label="Default select example">
-                <option selected>Network</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
-            </div>
-          </div>
-        </div>{" "}
-        <div class="alert alert-secondary" role="alert">
-          Should be an error box, if u are on wrong network etc then should say
-          here Here u can have a thing that Here u can have a thing that Here u
-          can have a thing that Here u can have a thing that Here u can have a
-          thing that Here u can have a thing that Here u can have a thing that
-          Here u can have a thing that Here u can have a thing that
-        </div>{" "}
-      </div>
+      {whichBridgeToRender()}
     </>
   );
 }

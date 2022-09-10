@@ -181,7 +181,7 @@ a {
 } */
 .iBXRhG {
   color: #386f65;
-  width: 50%;
+  width: 40%;
   position: relative;
   font-weight: 500;
   outline: none;
@@ -200,4 +200,19 @@ a {
   background: none;
   border-bottom: 0.0625rem solid #386f65;
   margin-right: 1.875rem;
+}
+
+.tabs .nav-tabs .nav-link.active {
+  color: white;
+  background-color: #004ea0;
+  font-family: "Source Sans Pro", sans-serif;
+  border-color: #dee2e6 #dee2e6 #fff;
+  font-size: 18px;
+}
+.tabs .nav-tabs .nav-link {
+  border: 1px solid transparent;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  color: #212529;
+  font-size: 18px;
 }
