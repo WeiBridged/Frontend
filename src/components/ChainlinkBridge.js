@@ -9,6 +9,8 @@ const ChainlinkBridge = () => {
   const [errorMsg, setErrorMsg] = useState({});
   const [goerliBridgeContract, setGoerliBridgeContract] = useState(null);
   const [optimismBridgeContract, setOptimismBridgeContract] = useState(null);
+  const optimismAddress = "0x204D7E79c1B8BeD6b2a533377BE5B4780deD6CE2";
+  const goerliAddress = "0xD06245458e3479aDF4bAA9d390Cf7a335226060B";
 
   useEffect(() => {
     const loadBlockchainData = async () => {
@@ -31,10 +33,7 @@ const ChainlinkBridge = () => {
         "0x204D7E79c1B8BeD6b2a533377BE5B4780deD6CE2"
       );
       setGoerliBridgeContract(goerliContract);
-      setGoerliBridgeContract(optimismContract);
-
-      console.log(goerliContract, "This is electric contract");
-      console.log(optimismContract.methods, "chainlinkContract");
+      setOptimismBridgeContract(optimismContract);
 
       /*       if (goerliBridgeContract !== null) {
         goerliBridgeContract.methods
@@ -63,9 +62,26 @@ const ChainlinkBridge = () => {
     loadBlockchainData();
   }, []);
 
+  console.log(goerliBridgeContract, "GOERLI CONTRACT");
+  console.log(optimismBridgeContract, "OPTIMISM");
+
+  const clickAddLiqudity = () => {
+    let web3 = new Web3(window.web3.currentProvider);
+    web3.eth.sendTransaction({
+      to: optimismAddress,
+      data: optimismBridgeContract.methods.ownerAddBridgeLiqudity().encodeABI(),
+      value: 1000,
+      //TODO, make it come from metamask, should not be hardcoded
+      from: "0xb81B9B88e764cb6b4E02c5D0F6D6D9051A61E020",
+    });
+  };
   return (
     <div className="container py-5 app-market">
       <div class="alert alert-secondary" role="alert">
+        <div className="row p-1">
+          <h3>User</h3>
+        </div>
+
         <div className="row p-1">
           <label>From</label>
           <input
@@ -93,7 +109,10 @@ const ChainlinkBridge = () => {
       </div>{" "}
       <div class="alert alert-secondary" role="alert">
         <div className="row p-1">
-          <label>To</label>
+          <h3>Owner</h3>
+        </div>{" "}
+        <div className="row p-1">
+          <label>Add Liqudity Amount</label>
           <input
             class="sc-bGbJRg iBXRhG"
             inputmode="decimal"
@@ -110,6 +129,13 @@ const ChainlinkBridge = () => {
           <div className="col">
             {" "}
             <label for="cars">Coin/Token</label>
+            <button
+              onClick={() => clickAddLiqudity()}
+              className="btn"
+              style={{ backgroundColor: "grey" }}
+            >
+              Add Liqudity
+            </button>
           </div>
           <div className="col">
             {" "}
