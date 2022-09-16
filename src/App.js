@@ -11,6 +11,7 @@ import Navbar from "./components/Navbar";
 import LimitOrders from "./pages/LimitOrders";
 import DeBridge from "./components/DeBridge";
 import ChainlinkBridge from "./components/ChainlinkBridge";
+import Weibridged from "./components/Weibridged";
 
 const MyContext = React.createContext();
 
@@ -41,12 +42,14 @@ function App() {
     <DataContext.Provider value={{ userAccountAddress: userAccountAddress }}>
       <body class="stretched device-xl bg-white no-transition">
         {" "}
-        {/*      <button
-          onClick={() => handleConnectMetamask()}
-          className="btn-light mm"
-        >
-          {userAccountAddress ? connectedAddrValue : "Connect Wallet"}
-        </button> */}
+        <div className="container-fluid m-0 py-2 align-middle text-center text-banner">
+          <button
+            onClick={() => handleConnectMetamask()}
+            className="btn-light mm"
+          >
+            {userAccountAddress ? connectedAddrValue : "Connect Wallet"}
+          </button>
+        </div>
         <Navbar
           handleConnectMetamask={handleConnectMetamask}
           connectedAddrValue={connectedAddrValue}
@@ -57,6 +60,7 @@ function App() {
           <Route path="/debridge" element={<DeBridge />} />
           <Route path="/gaslesslimitorders" element={<LimitOrders />} />
           <Route path="/chainlink" element={<ChainlinkBridge />} />
+          <Route path="/weibridged" element={<Weibridged />} />
         </Routes>
         {/*         <Footer></Footer>
          */}{" "}

@@ -3,7 +3,7 @@ import Select from "react-select";
 import polygonIcon from "../assets/icons/polygon.svg";
 import ChainlinkBridge from "../components/ChainlinkBridge";
 import DeBridge from "../components/DeBridge";
-import ERC20Bridge from "../components/ERC20Bridge";
+import Weibridged from "../components/ERC20Bridge";
 function YourIcon() {
   return <img src={polygonIcon} width={20} height={20}></img>;
 }
@@ -57,7 +57,7 @@ export default function Bridge({ interval, searchText }) {
     } else if (showERC20Bridge) {
       console.log("inside erc20");
 
-      return <ERC20Bridge></ERC20Bridge>;
+      return <Weibridged></Weibridged>;
     } else {
       console.log("inside debridge");
       return <DeBridge></DeBridge>;
