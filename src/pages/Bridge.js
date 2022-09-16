@@ -3,7 +3,7 @@ import Select from "react-select";
 import polygonIcon from "../assets/icons/polygon.svg";
 import ChainlinkBridge from "../components/ChainlinkBridge";
 import DeBridge from "../components/DeBridge";
-import Weibridged from "../components/ERC20Bridge";
+import Weibridged from "../components/Weibridged";
 function YourIcon() {
   return <img src={polygonIcon} width={20} height={20}></img>;
 }

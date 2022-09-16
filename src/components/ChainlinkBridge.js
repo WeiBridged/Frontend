@@ -6,7 +6,10 @@ import { goerliABI } from "../constants/chainlinkABI";
 import { optimismABI } from "../constants/chainlinkABI";
 import Select from "react-select";
 import polygonIcon from "../assets/icons/polygon.svg";
-function YourIcon() {
+import optimismIcon from "../assets/icons/optimism.svg";
+import ethereumIcon from "../assets/icons/meth.svg";
+
+function YourIcon(asset) {
   return <img src={polygonIcon} width={20} height={20}></img>;
 }
 
@@ -15,7 +18,8 @@ const chainOptions = [
     value: "80001",
     label: (
       <>
-        <YourIcon /> Polygon Mumbai
+        <img alt="polygon" src={polygonIcon} width={20} height={20}></img>{" "}
+        Polygon Mumbai
       </>
     ),
     color: "#00B8D9",
@@ -25,7 +29,8 @@ const chainOptions = [
     value: "420",
     label: (
       <>
-        <YourIcon /> Optimism Görli Testnet
+        <img alt="polygon" src={optimismIcon} width={20} height={20}></img>{" "}
+        Optimism Görli
       </>
     ),
     color: "#0052CC",
@@ -34,7 +39,8 @@ const chainOptions = [
     value: "420",
     label: (
       <>
-        <YourIcon /> Ethereum Görli
+        <img alt="polygon" src={ethereumIcon} width={20} height={20}></img>{" "}
+        Ethereum Görli
       </>
     ),
     color: "#5243AA",
@@ -59,8 +65,9 @@ button for the locks.
   Optimism -> goerli
   Mumbai -> goerli
   goerli -> optimism, mumbai  
-  
   */
+
+  const assetChooserLogic = () => {};
 
   useEffect(() => {
     const loadBlockchainData = async () => {
@@ -161,8 +168,42 @@ button for the locks.
             <label for="cars">Network/Chain</label>
             <Select
               options={chainOptions}
-              value={selectedFromToken}
-              onChange={setSelectedFromToken}
+              value={selectedFromChain}
+              onChange={setSelectedFromChain}
+            />
+          </div>
+        </div>
+        <div className="row p-1">
+          <label>To</label>
+          <input
+            class="sc-bGbJRg iBXRhG"
+            inputmode="decimal"
+            title="Token Amount"
+            autocomplete="off"
+            autocorrect="off"
+            type="text"
+            pattern="^[0-9]*[.,]?[0-9]*$"
+            placeholder="0.0"
+            minlength="1"
+            maxlength="79"
+            spellcheck="false"
+          />{" "}
+          <div className="col">
+            {" "}
+            <label for="cars">Coin/Token</label>
+            <Select
+              options={chainOptions}
+              value={selectedToToken}
+              onChange={setSelectedToToken}
+            />
+          </div>
+          <div className="col">
+            {" "}
+            <label for="cars">Network/Chain</label>
+            <Select
+              options={chainOptions}
+              value={selectedToChain}
+              onChange={setSelectedToChain}
             />
           </div>
         </div>
