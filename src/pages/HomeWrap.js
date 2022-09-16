@@ -48,11 +48,6 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
 
   return (
     <>
-      <div className="container-fluid m-0 py-2 bg-black align-middle text-center text-banner">
-        <a href="/#/" className="text-white">
-          Try out the WeiBridged platform today!
-        </a>
-      </div>
       <div className="container-fluid text-white text-center page-top bg-top-app-market">
         <div className="container">
           <h1 className="top-page col-12 offset-md-7 col-md-5">WeiBridged</h1>

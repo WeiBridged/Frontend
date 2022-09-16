@@ -52,12 +52,10 @@ summary {
 }
 .bg-top-app-market {
   background-color: #f5abaa;
-
-  background-image: url(./assets/top-app-market.jpeg);
-
+  background-image: url(./assets/bridge.png);
   background-repeat: no-repeat;
-  background-position: top;
-  background-size: auto;
+  background-position: 35% 75%;
+  background-size: cover, 50%;
 }
 
 div.page-top {
@@ -71,7 +69,7 @@ div.page-top {
 }
 
 .bg-sandstorm {
-  background-color: #debf9e;
+  background-color: #212529;
 }
 
 .app-market-wrapper h4 {
@@ -124,8 +122,8 @@ a {
 }
 
 .alert-secondary {
-  color: #396f65;
-  background-color: #e2f7f3;
+  color: #8b6d4c;
+  background-color: #dcc5ac;
   border-color: #d6f4ee;
 }
 .alert {
@@ -243,4 +241,12 @@ a {
   color: #0e1340;
   background-color: #d3d8ee;
   border-color: #3c4278;
+}
+
+.hov {
+  margin-right: 30px;
+}
+
+.hov:hover {
+  text-decoration: white underline;
 }

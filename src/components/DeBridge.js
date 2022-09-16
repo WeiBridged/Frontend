@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 
 import Select from "react-select";
 import polygonIcon from "../assets/icons/polygon.svg";
-import ChainlinkBridge from "./ChainlinkBridge";
 function YourIcon() {
   return <img src={polygonIcon} width={20} height={20}></img>;
 }

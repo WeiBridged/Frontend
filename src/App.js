@@ -6,11 +6,11 @@ import React, { Component, useEffect, useState } from "react";
 import Web3 from "web3";
 import HomeWrap from "./pages/HomeWrap";
 
-import MobileDetected from "./pages/MobileDetected";
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import Bridge from "./pages/Bridge";
+
 import LimitOrders from "./pages/LimitOrders";
+import DeBridge from "./components/DeBridge";
+import ChainlinkBridge from "./components/ChainlinkBridge";
 
 const MyContext = React.createContext();
 
@@ -41,12 +41,12 @@ function App() {
     <DataContext.Provider value={{ userAccountAddress: userAccountAddress }}>
       <body class="stretched device-xl bg-white no-transition">
         {" "}
-        <button
+        {/*      <button
           onClick={() => handleConnectMetamask()}
           className="btn-light mm"
         >
           {userAccountAddress ? connectedAddrValue : "Connect Wallet"}
-        </button>
+        </button> */}
         <Navbar
           handleConnectMetamask={handleConnectMetamask}
           connectedAddrValue={connectedAddrValue}
@@ -54,10 +54,12 @@ function App() {
         />
         <Routes>
           <Route path="/" element={<HomeWrap />} />
-          <Route path="/bridge" element={<Bridge />} />
-          <Route path="/limitorders" element={<LimitOrders />} />
+          <Route path="/debridge" element={<DeBridge />} />
+          <Route path="/gaslesslimitorders" element={<LimitOrders />} />
+          <Route path="/chainlink" element={<ChainlinkBridge />} />
         </Routes>
-        <Footer></Footer>
+        {/*         <Footer></Footer>
+         */}{" "}
       </body>
     </DataContext.Provider>
   );
