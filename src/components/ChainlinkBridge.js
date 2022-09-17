@@ -1,5 +1,5 @@
 import "../index.scss";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Web3 from "web3";
 
 import { goerliABI } from "../constants/chainlinkABI";
@@ -26,7 +26,7 @@ const chainOptions = [
     isFixed: true,
   },
   {
-    value: "420",
+    value: "420opt",
     label: (
       <>
         <img alt="polygon" src={optimismIcon} width={20} height={20}></img>{" "}
@@ -36,7 +36,7 @@ const chainOptions = [
     color: "#0052CC",
   },
   {
-    value: "420",
+    value: "420eth",
     label: (
       <>
         <img alt="polygon" src={ethereumIcon} width={20} height={20}></img>{" "}
@@ -53,11 +53,8 @@ const ChainlinkBridge = () => {
   const [optimismBridgeContract, setOptimismBridgeContract] = useState(null);
   const optimismAddress = "0x204D7E79c1B8BeD6b2a533377BE5B4780deD6CE2";
   const goerliAddress = "0xD06245458e3479aDF4bAA9d390Cf7a335226060B";
-  const [selectedFromChain, setSelectedFromChain] = useState({});
-  const [selectedToChain, setSelectedToChain] = useState({});
-  const [selectedToToken, setSelectedToToken] = useState({});
 
-  const [selectedFromToken, setSelectedFromToken] = useState({});
+  const [selected, setSelected] = React.useState("");
 
   /*   
 for each option there should be a lock, owner has to have funds check that and throw error
@@ -67,7 +64,16 @@ button for the locks.
   goerli -> optimism, mumbai  
   */
 
-  const assetChooserLogic = () => {};
+  const goerliOption = {
+    value: "420eth",
+    label: (
+      <>
+        <img alt="eth" src={ethereumIcon} width={20} height={20}></img> Ethereum
+        Görli
+      </>
+    ),
+    color: "#5243AA",
+  };
 
   useEffect(() => {
     const loadBlockchainData = async () => {
@@ -117,7 +123,32 @@ button for the locks.
       } */
     };
     loadBlockchainData();
-  }, []);
+  }, [chainOptions]);
+
+  const changeSelectOptionHandler = (event) => {
+    setSelected(event.target.value);
+  };
+
+  //Different arrays for different dropdowns
+  const polygon = ["Ethereum Goerli"];
+  const optimism = ["Ethereum Goerli"];
+  const goerli = ["Polygon Mumbai", "Optimsim Goerli"];
+
+  let type = null;
+  let options = null;
+
+  //Setting Type variable according to dropdown
+  if (selected === "Polygon Mumbai") {
+    type = polygon;
+  } else if (selected === "Optimism Goerli") {
+    type = optimism;
+  } else if (selected === "Ethereum Goerli") {
+    type = goerli;
+  }
+
+  if (type) {
+    options = type.map((el) => <option key={el}>{el}</option>);
+  }
 
   console.log(goerliBridgeContract, "GOERLI CONTRACT");
   console.log(optimismBridgeContract, "OPTIMISM");
@@ -142,69 +173,56 @@ button for the locks.
         <div className="row p-1">
           <label>From</label>
           <input
-            class="sc-bGbJRg iBXRhG"
-            inputmode="decimal"
+            className="sc-bGbJRg iBXRhG"
+            inputMode="decimal"
             title="Token Amount"
-            autocomplete="off"
-            autocorrect="off"
+            autoComplete="off"
+            autoCorrect="off"
             type="text"
             pattern="^[0-9]*[.,]?[0-9]*$"
             placeholder="0.0"
-            minlength="1"
-            maxlength="79"
-            spellcheck="false"
+            minLength="1"
+            maxLength="79"
+            spellCheck="false"
           />{" "}
           <div className="col">
             {" "}
-            <label for="cars">Coin/Token</label>
-            <Select
-              options={chainOptions}
-              value={selectedFromToken}
-              onChange={setSelectedFromToken}
-            />
-          </div>
-          <div className="col">
-            {" "}
             <label for="cars">Network/Chain</label>
-            <Select
-              options={chainOptions}
-              value={selectedFromChain}
-              onChange={setSelectedFromChain}
-            />
+            <select
+              className="form-select"
+              onChange={changeSelectOptionHandler}
+            >
+              <option>Choose...</option>
+              <option>Polygon Mumbai</option>
+              <option>Optimism Goerli</option>
+              <option>Ethereum Goerli</option>
+            </select>
           </div>
         </div>
         <div className="row p-1">
           <label>To</label>
           <input
-            class="sc-bGbJRg iBXRhG"
-            inputmode="decimal"
+            className="sc-bGbJRg iBXRhG"
+            inputMode="decimal"
             title="Token Amount"
-            autocomplete="off"
-            autocorrect="off"
+            autoComplete="off"
+            autoCorrect="off"
             type="text"
             pattern="^[0-9]*[.,]?[0-9]*$"
             placeholder="0.0"
-            minlength="1"
-            maxlength="79"
-            spellcheck="false"
+            minLength="1"
+            maxLength="79"
+            spellCheck="false"
           />{" "}
           <div className="col">
             {" "}
-            <label for="cars">Coin/Token</label>
-            <Select
-              options={chainOptions}
-              value={selectedToToken}
-              onChange={setSelectedToToken}
-            />
-          </div>
-          <div className="col">
-            {" "}
-            <label for="cars">Network/Chain</label>
-            <Select
-              options={chainOptions}
-              value={selectedToChain}
-              onChange={setSelectedToChain}
-            />
+            <label>Network/Chain</label>
+            <select className="form-select">
+              {
+                /** Options based on users first selection */
+                options
+              }
+            </select>
           </div>
         </div>
       </div>{" "}
@@ -215,17 +233,17 @@ button for the locks.
         <div className="row p-1">
           <label>Add Liqudity Amount</label>
           <input
-            class="sc-bGbJRg iBXRhG"
-            inputmode="decimal"
+            className="sc-bGbJRg iBXRhG"
+            inputMode="decimal"
             title="Token Amount"
-            autocomplete="off"
-            autocorrect="off"
+            autoComplete="off"
+            autoCorrect="off"
             type="text"
             pattern="^[0-9]*[.,]?[0-9]*$"
             placeholder="0.0"
-            minlength="1"
-            maxlength="79"
-            spellcheck="false"
+            minLength="1"
+            maxLength="79"
+            spellCheck="false"
           />{" "}
           <div className="col">
             {" "}
