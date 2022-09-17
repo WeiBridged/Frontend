@@ -1,51 +1,10 @@
 import "../index.scss";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import Web3 from "web3";
-
 import { goerliABI } from "../constants/chainlinkABI";
 import { optimismABI } from "../constants/chainlinkABI";
-import Select from "react-select";
-import polygonIcon from "../assets/icons/polygon.svg";
-import optimismIcon from "../assets/icons/optimism.svg";
 import ethereumIcon from "../assets/icons/meth.svg";
-
-function YourIcon(asset) {
-  return <img src={polygonIcon} width={20} height={20}></img>;
-}
-
-const chainOptions = [
-  {
-    value: "80001",
-    label: (
-      <>
-        <img alt="polygon" src={polygonIcon} width={20} height={20}></img>{" "}
-        Polygon Mumbai
-      </>
-    ),
-    color: "#00B8D9",
-    isFixed: true,
-  },
-  {
-    value: "420opt",
-    label: (
-      <>
-        <img alt="polygon" src={optimismIcon} width={20} height={20}></img>{" "}
-        Optimism Görli
-      </>
-    ),
-    color: "#0052CC",
-  },
-  {
-    value: "420eth",
-    label: (
-      <>
-        <img alt="polygon" src={ethereumIcon} width={20} height={20}></img>{" "}
-        Ethereum Görli
-      </>
-    ),
-    color: "#5243AA",
-  },
-];
+import { DataContext } from "../DataContext";
 
 const ChainlinkBridge = () => {
   const [errorMsg, setErrorMsg] = useState({});
@@ -53,9 +12,11 @@ const ChainlinkBridge = () => {
   const [optimismBridgeContract, setOptimismBridgeContract] = useState(null);
   const optimismAddress = "0x204D7E79c1B8BeD6b2a533377BE5B4780deD6CE2";
   const goerliAddress = "0xD06245458e3479aDF4bAA9d390Cf7a335226060B";
+  const { userAccountAddress, setUserAccountAddress } =
+    React.useContext(DataContext);
 
   const [selected, setSelected] = React.useState("");
-
+  console.log(userAccountAddress, "useracc addrr");
   /*   
 for each option there should be a lock, owner has to have funds check that and throw error
 button for the locks. 
@@ -63,17 +24,6 @@ button for the locks.
   Mumbai -> goerli
   goerli -> optimism, mumbai  
   */
-
-  const goerliOption = {
-    value: "420eth",
-    label: (
-      <>
-        <img alt="eth" src={ethereumIcon} width={20} height={20}></img> Ethereum
-        Görli
-      </>
-    ),
-    color: "#5243AA",
-  };
 
   useEffect(() => {
     const loadBlockchainData = async () => {
@@ -87,13 +37,10 @@ button for the locks.
         setErrorMsg("Must be on the Mumbai test network");
       }
 
-      const goerliContract = new web3.eth.Contract(
-        goerliABI,
-        "0xD06245458e3479aDF4bAA9d390Cf7a335226060B"
-      );
+      const goerliContract = new web3.eth.Contract(goerliABI, goerliAddress);
       const optimismContract = new web3.eth.Contract(
         optimismABI,
-        "0x204D7E79c1B8BeD6b2a533377BE5B4780deD6CE2"
+        optimismAddress
       );
       setGoerliBridgeContract(goerliContract);
       setOptimismBridgeContract(optimismContract);
@@ -123,7 +70,7 @@ button for the locks.
       } */
     };
     loadBlockchainData();
-  }, [chainOptions]);
+  }, []);
 
   const changeSelectOptionHandler = (event) => {
     setSelected(event.target.value);
@@ -163,6 +110,7 @@ button for the locks.
       from: "0xb81B9B88e764cb6b4E02c5D0F6D6D9051A61E020",
     });
   };
+
   return (
     <div className="container py-5 app-market">
       <div class="alert alert-secondary" role="alert">
