@@ -15,7 +15,7 @@ const Navbar = ({
         Mock Chainlink Keepers Bridge
       </a>
       <a href="/#/debridge" className="text-white hov">
-        deBridge
+        deBridge Swap
       </a>
       <a href="/#/weibridged" className="text-white hov">
         WeiBridged

@@ -3,6 +3,9 @@ import React, { useState, useEffect } from "react";
 
 import Select from "react-select";
 import polygonIcon from "../assets/icons/polygon.svg";
+import ethereumIcon from "../assets/icons/meth.svg";
+import arbIcon from "../assets/icons/arbitrum.svg";
+
 function YourIcon() {
   return <img src={polygonIcon} width={20} height={20}></img>;
 }
@@ -12,17 +15,17 @@ const chainOptions = [
     value: "80001",
     label: (
       <>
-        <YourIcon /> Polygon Mumbai
+        <img src={polygonIcon} width={20} height={20}></img> Polygon Mumbai
       </>
     ),
     color: "#00B8D9",
     isFixed: true,
   },
   {
-    value: "420",
+    value: "421611",
     label: (
       <>
-        <YourIcon /> Optimism Görli Testnet
+        <img src={arbIcon} width={20} height={20}></img> Arbitrum Testnet
       </>
     ),
     color: "#0052CC",
@@ -31,7 +34,7 @@ const chainOptions = [
     value: "420",
     label: (
       <>
-        <YourIcon /> Ethereum Görli
+        <img src={ethereumIcon} width={20} height={20}></img> Ethereum Görli
       </>
     ),
     color: "#5243AA",
@@ -62,7 +65,6 @@ dstChainId specified the Polygon network chain id (137) as the target (destinati
 dstChainTokenOut specifies the address of the target token; since MATIC is not a typical ERC-20 token represented by a smart contract but rather a native coin (a one-of-a-kind token within each EVM chain), we use a null (or zero) address to distinguish it from other tokens.
 dstChainTokenOutRecipient, the address target tokens should be transferred to after the swap, and
 dstChainFallbackAddress, the address target or intermediary tokens should be transferred in case of a failed swap (e.g., a swap may fail due to slippage constraints). 
-
 */
 
   useEffect(() => {
