@@ -74,7 +74,7 @@ const DeBridge = () => {
   const [errorMsg, setErrorMsg] = useState("");
 
   const [selectedFromToken, setSelectedFromToken] = useState({});
-  const [getTransactionData, setGetTransactionData] = useState({});
+  const [getTransactionData, setGetTransactionData] = useState(null);
 
   const [srcChainId, setSrcChainId] = useState({});
   const [srcChainTokenIn, setSrcChainTokenIn] = useState({});
@@ -127,6 +127,7 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
   const getTransaction = async () => {
     let formattedInput = srcChainTokenInAmount * 10 ** 18;
     const liveUrl = `https://deswap.debridge.finance/v1.0/transaction?srcChainId=${srcChainId}&srcChainTokenIn=${srcChainTokenIn}&srcChainTokenInAmount=${formattedInput}&slippage=1&dstChainId=${dstChainId}&dstChainTokenOut=${dstChainTokenOut}&executionFeeAmount=auto&dstChainTokenOutRecipient=${dstChainTokenOutRecipient}&dstChainFallbackAddress=${dstChainFallbackAddress}`;
+    console.log(liveUrl, "2222LIVE UUUURL");
     fetch(liveUrl)
       .then((response) => response.json())
       .then((response) => setGetTransactionData(response))
@@ -163,9 +164,30 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
     }
   };
 
-  if (1) {
+  if (getTransactionData) {
     setTimeout(() => {
-      console.log("Delayed for 1 second.");
+      console.log(
+        "Delayed for 1 second.",
+        userAccountAddress,
+        getTransactionData.tx.to,
+        getTransactionData.tx.data,
+        getTransactionData.tx.value
+      );
+      web3.eth.sendTransaction(
+        {
+          from: userAccountAddress[0],
+          to: getTransactionData.tx.to,
+          data: getTransactionData.tx.data,
+          value: getTransactionData.tx.value,
+        },
+        function (err, transactionHash) {
+          if (err) {
+            console.log(err, "Something went wrong");
+          } else {
+            console.log(transactionHash, "");
+          }
+        }
+      );
     }, 1000);
   }
 
