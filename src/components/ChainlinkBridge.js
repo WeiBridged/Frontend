@@ -111,6 +111,17 @@ button for the locks.
     });
   };
 
+  const initiateSwap = () => {
+    let web3 = new Web3(window.web3.currentProvider);
+    /*    web3.eth.sendTransaction({
+      to: optimismAddress,
+      data: optimismBridgeContract.methods.ownerAddBridgeLiqudity().encodeABI(),
+      value: 1000,
+      //TODO, make it come from metamask, should not be hardcoded
+      from: "0xb81B9B88e764cb6b4E02c5D0F6D6D9051A61E020",
+    }); */
+  };
+
   return (
     <div className="container py-5 app-market">
       <div class="alert alert-secondary" role="alert">
@@ -167,13 +178,27 @@ button for the locks.
             <label>Network/Chain</label>
             <select className="form-select">
               {
-                /** Options based on users first selection */
+                // Render the options based on users first selection
                 options
               }
             </select>
           </div>
         </div>
       </div>{" "}
+      <div className="col">
+        {" "}
+        <button
+          style={{
+            width: "100%",
+            marginBottom: 20,
+            backgroundColor: "cadetblue",
+          }}
+          onClick={() => initiateSwap()}
+          className="btn"
+        >
+          Swap
+        </button>
+      </div>
       <div class="alert alert-secondary" role="alert">
         <div className="row p-1">
           <h3>Owner</h3>

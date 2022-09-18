@@ -98,6 +98,17 @@ const DeBridge = () => {
 
   const [selectedFromToken, setSelectedFromToken] = useState({});
   const [getTransactionData, setGetTransactionData] = useState({});
+
+  const [srcChainId, setSrcChainId] = useState({});
+  const [srcChainTokenIn, setSrcChainTokenIn] = useState({});
+  const [srcChainTokenInAmount, setSrcChainTokenInAmount] = useState(0);
+  const [dstChainId, setDstChainId] = useState({});
+  const [dstChainTokenOut, setDstChainTokenOut] = useState({});
+  const [dstChainTokenOutRecipient, setDstChainTokenOutRecipient] = useState(
+    {}
+  );
+  const [dstChainFallbackAddress, setDstChainFallbackAddress] = useState({});
+
   /*   let srcChainId = "1";
   let srcChainTokenIn = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
   let srcChainTokenInAmount = "50000000";
@@ -105,14 +116,6 @@ const DeBridge = () => {
   let dstChainTokenOut = "0x0000000000000000000000000000000000000000";
   let dstChainTokenOutRecipient = "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045";
   let dstChainFallbackAddress = "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"; */
-
-  let srcChainId = "420";
-  let srcChainTokenIn = "0x7af963cF6D228E564e2A0aA0DdBF06210B38615D";
-  let srcChainTokenInAmount = "50000000";
-  let dstChainId = "80001";
-  let dstChainTokenOut = "0x0000000000000000000000000000000000000000";
-  let dstChainTokenOutRecipient = "0xb81B9B88e764cb6b4E02c5D0F6D6D9051A61E020";
-  let dstChainFallbackAddress = "0xb81B9B88e764cb6b4E02c5D0F6D6D9051A61E020";
 
   //IMPLEMENTAION FROM DEBRIDGE DOCS: https://docs.debridge.finance/deswap/api-quick-start-guide
   /*   
@@ -196,6 +199,8 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
             minlength="1"
             maxlength="79"
             spellcheck="false"
+            value={srcChainTokenInAmount}
+            onInput={(e) => setSrcChainTokenInAmount(e.target.value)}
           />{" "}
           <div className="col">
             {" "}
@@ -232,6 +237,7 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
             minlength="1"
             maxlength="79"
             spellcheck="false"
+            value={0}
           />{" "}
           <div className="col">
             {" "}
