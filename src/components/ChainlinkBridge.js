@@ -40,8 +40,8 @@ button for the locks.
       //const addressFromMetamask = await web3.eth.getAccounts();
       const chainId = await web3.eth.getChainId();
       console.log(chainId);
-      if (chainId !== 80001) {
-        setErrorMsg("Must be on the Mumbai test network");
+      if (chainId !== 5) {
+        setErrorMsg("Must be on the Goerli test network");
       }
 
       const goerliContract = new web3.eth.Contract(goerliABI, goerliAddress);
@@ -111,7 +111,7 @@ button for the locks.
     console.log(selectedAddLiquidityChain.value, "INSIDE HEREEEOO");
     let connectedChainId = await web3.eth.net.getId();
     console.log(connectedChainId, "CONNECTED ID");
-    if (connectedChainId !== 5) {
+    if (connectedChainId === 5 && userAccountAddress) {
       console.log("You are here inside chainid 5");
       if (selectedAddLiquidityChain.value === "opt") {
         console.log("Inside opt callt");
@@ -134,18 +134,23 @@ button for the locks.
         });
       }
     } else {
-      setErrorMsg("Please connect to the goerli network in your wallet!");
+      setErrorMsg(
+        "Please make sure you are connected to the Goerli network in your wallet!"
+      );
     }
   };
 
   const initiateSwap = () => {
-    /*    web3.eth.sendTransaction({
-      to: optimismAddress,
-      data: optimismBridgeContract.methods.ownerAddBridgeLiqudity().encodeABI(),
-      value: 1000,
-      //TODO, make it come from metamask, should not be hardcoded
-      from: "0xb81B9B88e764cb6b4E02c5D0F6D6D9051A61E020",
-    }); */
+    if (userAccountAddress) {
+      web3.eth.sendTransaction({
+        to: goerliAddress,
+        data: goerliBridgeContract.methods.lockTokensForOptimism().encodeABI(),
+        value: 1003,
+        from: userAccountAddress[0],
+      });
+    } else {
+      setErrorMsg("Connect to Goerli");
+    }
   };
 
   return (
