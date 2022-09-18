@@ -5,6 +5,7 @@ import Select from "react-select";
 import polygonIcon from "../assets/icons/polygon.svg";
 import ethereumIcon from "../assets/icons/meth.svg";
 import arbIcon from "../assets/icons/arbitrum.svg";
+import avaxIcon from "../assets/icons/avax.svg";
 
 function YourIcon() {
   return <img src={polygonIcon} width={20} height={20}></img>;
@@ -15,7 +16,7 @@ const chainOptions = [
     value: "80001",
     label: (
       <>
-        <img src={polygonIcon} width={20} height={20}></img> Polygon Mumbai
+        <img src={polygonIcon} width={20} height={20}></img> Polygon
       </>
     ),
     color: "#00B8D9",
@@ -25,7 +26,7 @@ const chainOptions = [
     value: "421611",
     label: (
       <>
-        <img src={arbIcon} width={20} height={20}></img> Arbitrum Testnet
+        <img src={arbIcon} width={20} height={20}></img> Arbitrum
       </>
     ),
     color: "#0052CC",
@@ -34,7 +35,56 @@ const chainOptions = [
     value: "420",
     label: (
       <>
-        <img src={ethereumIcon} width={20} height={20}></img> Ethereum Görli
+        <img src={ethereumIcon} width={20} height={20}></img> Ethereum
+      </>
+    ),
+    color: "#5243AA",
+  },
+  {
+    value: "420",
+    label: (
+      <>
+        <img src={avaxIcon} width={20} height={20}></img> Avalanche
+      </>
+    ),
+    color: "#5243AA",
+  },
+];
+
+const tokenOptions = [
+  {
+    value: "80001",
+    label: (
+      <>
+        <img src={polygonIcon} width={20} height={20}></img> MATIC
+      </>
+    ),
+    color: "#00B8D9",
+    isFixed: true,
+  },
+  {
+    value: "421611",
+    label: (
+      <>
+        <img src={arbIcon} width={20} height={20}></img> Arbitrum ETH
+      </>
+    ),
+    color: "#0052CC",
+  },
+  {
+    value: "420",
+    label: (
+      <>
+        <img src={ethereumIcon} width={20} height={20}></img> Ethereum ETH
+      </>
+    ),
+    color: "#5243AA",
+  },
+  {
+    value: "420",
+    label: (
+      <>
+        <img src={avaxIcon} width={20} height={20}></img> AVAX
       </>
     ),
     color: "#5243AA",
@@ -48,17 +98,25 @@ const DeBridge = () => {
 
   const [selectedFromToken, setSelectedFromToken] = useState({});
   const [getTransactionData, setGetTransactionData] = useState({});
-
-  let srcChainId = "1";
+  /*   let srcChainId = "1";
   let srcChainTokenIn = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
   let srcChainTokenInAmount = "50000000";
   let dstChainId = "137";
   let dstChainTokenOut = "0x0000000000000000000000000000000000000000";
   let dstChainTokenOutRecipient = "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045";
-  let dstChainFallbackAddress = "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045";
+  let dstChainFallbackAddress = "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"; */
+
+  let srcChainId = "420";
+  let srcChainTokenIn = "0x7af963cF6D228E564e2A0aA0DdBF06210B38615D";
+  let srcChainTokenInAmount = "50000000";
+  let dstChainId = "80001";
+  let dstChainTokenOut = "0x0000000000000000000000000000000000000000";
+  let dstChainTokenOutRecipient = "0xb81B9B88e764cb6b4E02c5D0F6D6D9051A61E020";
+  let dstChainFallbackAddress = "0xb81B9B88e764cb6b4E02c5D0F6D6D9051A61E020";
 
   //IMPLEMENTAION FROM DEBRIDGE DOCS: https://docs.debridge.finance/deswap/api-quick-start-guide
-  /*   srcChainId specifies the Ethereum chain id (1) as the chain swap is being initiated
+  /*   
+  srcChainId specifies the Ethereum chain id (1) as the chain swap is being initiated
 srcChainTokenIn specifies the USDT token address (0xdAC17F958D2ee523a2206206994597C13D831ec7)
 srcChainTokenInAmount specifies the desired input amount: since USDT token contract uses 6 decimals (the number of digits that come after the decimal place when displaying token values on-screen), the simple math: 50 * 10^6 leads to 50000000 as the value representing 50 USDT tokens
 dstChainId specified the Polygon network chain id (137) as the target (destination) chain
@@ -67,16 +125,16 @@ dstChainTokenOutRecipient, the address target tokens should be transferred to af
 dstChainFallbackAddress, the address target or intermediary tokens should be transferred in case of a failed swap (e.g., a swap may fail due to slippage constraints). 
 */
 
-  useEffect(() => {
-    const fetchSwapEstimation = async () => {
-      const liveUrl = `https://deswap.debridge.finance/v1.0/estimation?srcChainId=${srcChainId}&srcChainTokenIn=${srcChainTokenIn}&srcChainTokenInAmount=${srcChainTokenInAmount}&slippage=1&dstChainId=${dstChainId}&dstChainTokenOut=${dstChainTokenOut}&executionFeeAmount=auto`;
-      const res = await fetch(liveUrl);
-      const data = await res.json();
-      setEstimateSwapData(data);
-      await getTransaction();
-    };
+  const fetchSwapEstimation = async () => {
+    const liveUrl = `https://deswap.debridge.finance/v1.0/estimation?srcChainId=${srcChainId}&srcChainTokenIn=${srcChainTokenIn}&srcChainTokenInAmount=${srcChainTokenInAmount}&slippage=1&dstChainId=${dstChainId}&dstChainTokenOut=${dstChainTokenOut}&executionFeeAmount=auto`;
+    const res = await fetch(liveUrl);
+    const data = await res.json();
+    setEstimateSwapData(data);
+    await getTransaction();
+  };
+  /*   useEffect(() => {
     fetchSwapEstimation();
-  }, []);
+  }, []); */
 
   const getTransaction = async () => {
     fetch(
@@ -90,6 +148,37 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
   console.log(estimateSwapData, "BÄÄ est swap data");
   console.log(getTransactionData, "BÄÄ gettransaction data");
   console.log("inside debridge compontonent");
+
+  const initiateSwap = async () => {
+    if (
+      srcChainId &&
+      srcChainTokenIn &&
+      srcChainTokenInAmount &&
+      dstChainId &&
+      dstChainFallbackAddress &&
+      dstChainTokenOut &&
+      dstChainTokenOutRecipient
+    ) {
+      await fetchSwapEstimation();
+      console.log(getTransactionData, "should be set on click");
+    }
+  };
+
+  const handleSelectChain = (type) => {
+    if (type === "src") {
+    }
+    //set destination chain (TO)
+    else {
+    }
+  };
+  const handleSelectToken = (type) => {
+    if (type === "src") {
+    }
+    //set destination chain (TO)
+    else {
+    }
+  };
+
   return (
     <div className="container py-5 app-market">
       <div class="alert alert-secondary" role="alert">
@@ -112,9 +201,9 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
             {" "}
             <label for="cars">Coin/Token</label>
             <Select
-              options={chainOptions}
+              options={tokenOptions}
               value={selectedFromToken}
-              onChange={setSelectedFromToken}
+              onChange={() => handleSelectToken("src")}
             />
           </div>
           <div className="col">
@@ -123,7 +212,7 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
             <Select
               options={chainOptions}
               value={selectedFromChain}
-              onChange={setSelectedFromChain}
+              onChange={() => handleSelectChain("src")}
             />
           </div>
         </div>
@@ -150,7 +239,7 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
             <Select
               options={chainOptions}
               value={selectedToToken}
-              onChange={setSelectedToToken}
+              onChange={() => handleSelectToken("dst")}
             />
           </div>
           <div className="col">
@@ -159,11 +248,25 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
             <Select
               options={chainOptions}
               value={selectedToChain}
-              onChange={setSelectedToChain}
+              onChange={() => handleSelectChain("dst")}
             />{" "}
           </div>
         </div>
       </div>{" "}
+      <div className="col">
+        {" "}
+        <button
+          style={{
+            width: "100%",
+            marginBottom: 20,
+            backgroundColor: "cadetblue",
+          }}
+          onClick={() => initiateSwap()}
+          className="btn"
+        >
+          Swap
+        </button>
+      </div>
       <div class="alert alert-secondary" role="alert">
         DEEBRIDGE Should be an error box, if u are on wrong network etc then
         should say here Here u can have a thing that Here u can have a thing
