@@ -7,13 +7,19 @@ import ethereumIcon from "../assets/icons/meth.svg";
 import arbIcon from "../assets/icons/arbitrum.svg";
 import avaxIcon from "../assets/icons/avax.svg";
 
+import Web3 from "web3";
+import { DataContext } from "../DataContext";
+
 function YourIcon() {
   return <img src={polygonIcon} width={20} height={20}></img>;
 }
 
 const chainOptions = [
   {
-    value: "80001",
+    value: {
+      chainId: 137,
+      tokenContractAddr: "0x0000000000000000000000000000000000000000",
+    },
     label: (
       <>
         <img src={polygonIcon} width={20} height={20}></img> Polygon
@@ -23,7 +29,10 @@ const chainOptions = [
     isFixed: true,
   },
   {
-    value: "421611",
+    value: {
+      chainId: 42161,
+      tokenContractAddr: "0x0000000000000000000000000000000000000000",
+    },
     label: (
       <>
         <img src={arbIcon} width={20} height={20}></img> Arbitrum
@@ -32,7 +41,10 @@ const chainOptions = [
     color: "#0052CC",
   },
   {
-    value: "420",
+    value: {
+      chainId: 1,
+      tokenContractAddr: "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
+    },
     label: (
       <>
         <img src={ethereumIcon} width={20} height={20}></img> Ethereum
@@ -41,7 +53,10 @@ const chainOptions = [
     color: "#5243AA",
   },
   {
-    value: "420",
+    value: {
+      chainId: 43114,
+      tokenContractAddr: "0x1ce0c2827e2ef14d5c4f29a091d735a204794041",
+    },
     label: (
       <>
         <img src={avaxIcon} width={20} height={20}></img> Avalanche
@@ -51,50 +66,12 @@ const chainOptions = [
   },
 ];
 
-const tokenOptions = [
-  {
-    value: "80001",
-    label: (
-      <>
-        <img src={polygonIcon} width={20} height={20}></img> MATIC
-      </>
-    ),
-    color: "#00B8D9",
-    isFixed: true,
-  },
-  {
-    value: "421611",
-    label: (
-      <>
-        <img src={arbIcon} width={20} height={20}></img> Arbitrum ETH
-      </>
-    ),
-    color: "#0052CC",
-  },
-  {
-    value: "420",
-    label: (
-      <>
-        <img src={ethereumIcon} width={20} height={20}></img> Ethereum ETH
-      </>
-    ),
-    color: "#5243AA",
-  },
-  {
-    value: "420",
-    label: (
-      <>
-        <img src={avaxIcon} width={20} height={20}></img> AVAX
-      </>
-    ),
-    color: "#5243AA",
-  },
-];
 const DeBridge = () => {
   const [estimateSwapData, setEstimateSwapData] = useState({});
   const [selectedFromChain, setSelectedFromChain] = useState({});
   const [selectedToChain, setSelectedToChain] = useState({});
   const [selectedToToken, setSelectedToToken] = useState({});
+  const [errorMsg, setErrorMsg] = useState("");
 
   const [selectedFromToken, setSelectedFromToken] = useState({});
   const [getTransactionData, setGetTransactionData] = useState({});
@@ -108,6 +85,11 @@ const DeBridge = () => {
     {}
   );
   const [dstChainFallbackAddress, setDstChainFallbackAddress] = useState({});
+  const [formattedInput, setFormattedInput] = useState(0);
+
+  const { userAccountAddress, setUserAccountAddress } =
+    React.useContext(DataContext);
+  let web3 = new Web3(window.web3.currentProvider);
 
   /*   let srcChainId = "1";
   let srcChainTokenIn = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
@@ -129,20 +111,23 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
 */
 
   const fetchSwapEstimation = async () => {
-    const liveUrl = `https://deswap.debridge.finance/v1.0/estimation?srcChainId=${srcChainId}&srcChainTokenIn=${srcChainTokenIn}&srcChainTokenInAmount=${srcChainTokenInAmount}&slippage=1&dstChainId=${dstChainId}&dstChainTokenOut=${dstChainTokenOut}&executionFeeAmount=auto`;
+    let formattedInput = srcChainTokenInAmount * 10 ** 18;
+    const liveUrl = `https://deswap.debridge.finance/v1.0/estimation?srcChainId=${srcChainId}&srcChainTokenIn=${srcChainTokenIn}&srcChainTokenInAmount=${formattedInput}&slippage=1&dstChainId=${dstChainId}&dstChainTokenOut=${dstChainTokenOut}&executionFeeAmount=auto`;
+    console.log(liveUrl, "LIVE URL CALLED");
     const res = await fetch(liveUrl);
     const data = await res.json();
     setEstimateSwapData(data);
-    await getTransaction();
+    let transaction = await getTransaction();
+    return transaction;
   };
   /*   useEffect(() => {
     fetchSwapEstimation();
   }, []); */
 
   const getTransaction = async () => {
-    fetch(
-      `https://deswap.debridge.finance/v1.0/transaction?srcChainId=${srcChainId}&srcChainTokenIn=${srcChainTokenIn}&srcChainTokenInAmount=${srcChainTokenInAmount}&slippage=1&dstChainId=${dstChainId}&dstChainTokenOut=${dstChainTokenOut}&executionFeeAmount=auto&dstChainTokenOutRecipient=${dstChainTokenOutRecipient}&dstChainFallbackAddress=${dstChainFallbackAddress}`
-    )
+    let formattedInput = srcChainTokenInAmount * 10 ** 18;
+    const liveUrl = `https://deswap.debridge.finance/v1.0/transaction?srcChainId=${srcChainId}&srcChainTokenIn=${srcChainTokenIn}&srcChainTokenInAmount=${formattedInput}&slippage=1&dstChainId=${dstChainId}&dstChainTokenOut=${dstChainTokenOut}&executionFeeAmount=auto&dstChainTokenOutRecipient=${dstChainTokenOutRecipient}&dstChainFallbackAddress=${dstChainFallbackAddress}`;
+    fetch(liveUrl)
       .then((response) => response.json())
       .then((response) => setGetTransactionData(response))
       .catch((err) => console.error(err));
@@ -150,9 +135,19 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
 
   console.log(estimateSwapData, "BÄÄ est swap data");
   console.log(getTransactionData, "BÄÄ gettransaction data");
-  console.log("inside debridge compontonent");
+  console.log(srcChainTokenInAmount, "TOKEN IN AMOUNT");
 
   const initiateSwap = async () => {
+    let paramObj = {
+      srcChainId: srcChainId,
+      srcChainTokenIn: srcChainTokenIn,
+      srcChainTokenInAmount: srcChainTokenInAmount,
+      dstChainId: dstChainId,
+      dstChainFallbackAddress: dstChainFallbackAddress,
+      dstChainTokenOut: dstChainTokenOut,
+      dstChainTokenOutRecipient: dstChainTokenOutRecipient,
+    };
+    console.log();
     if (
       srcChainId &&
       srcChainTokenIn &&
@@ -162,23 +157,51 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
       dstChainTokenOut &&
       dstChainTokenOutRecipient
     ) {
-      await fetchSwapEstimation();
-      console.log(getTransactionData, "should be set on click");
+      console.log("INSIDE IF INIT SWAPPPPP");
+      let transactionData = await fetchSwapEstimation();
+      console.log("TRANSACTIONDATAAAA", transactionData);
     }
   };
 
-  const handleSelectChain = (type) => {
+  if (1) {
+    setTimeout(() => {
+      console.log("Delayed for 1 second.");
+    }, 1000);
+  }
+
+  const handleSelectChain = async (asset, type) => {
     if (type === "src") {
+      console.log("inside SRC");
+      setSrcChainId(asset.value.chainId);
+      setSrcChainTokenIn("0x0000000000000000000000000000000000000000");
+
+      setSelectedFromChain(asset);
     }
     //set destination chain (TO)
     else {
-    }
-  };
-  const handleSelectToken = (type) => {
-    if (type === "src") {
-    }
-    //set destination chain (TO)
-    else {
+      setDstChainId(asset.value.chainId);
+      setDstChainTokenOut("0x0000000000000000000000000000000000000000");
+      setSelectedToChain(asset);
+      // TODO check here if user is on right account, the dstChainId is the same as connected chainid in wallet
+
+      let connectedChainId = await web3.eth.net.getId();
+      console.log(connectedChainId, "CONNECTED CHAIN ID", asset.value.chainId);
+      if (
+        userAccountAddress !== "" ||
+        connectedChainId === 137 ||
+        connectedChainId === 1 ||
+        connectedChainId === 43114 ||
+        connectedChainId === 42161
+      ) {
+        setDstChainTokenOutRecipient(userAccountAddress);
+        setDstChainFallbackAddress(userAccountAddress);
+      } else {
+        setErrorMsg(
+          "Source chain chosen does not match connected chain. Please connect to chainId " +
+            asset.value.chainId +
+            " in your wallet"
+        );
+      }
     }
   };
 
@@ -204,20 +227,11 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
           />{" "}
           <div className="col">
             {" "}
-            <label for="cars">Coin/Token</label>
-            <Select
-              options={tokenOptions}
-              value={selectedFromToken}
-              onChange={() => handleSelectToken("src")}
-            />
-          </div>
-          <div className="col">
-            {" "}
             <label for="cars">Network/Chain</label>
             <Select
               options={chainOptions}
               value={selectedFromChain}
-              onChange={() => handleSelectChain("src")}
+              onChange={(val) => handleSelectChain(val, "src")}
             />
           </div>
         </div>
@@ -240,22 +254,12 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
             value={0}
           />{" "}
           <div className="col">
-            {" "}
-            <label for="cars">Coin/Token</label>
-            <Select
-              options={chainOptions}
-              value={selectedToToken}
-              onChange={() => handleSelectToken("dst")}
-            />
-          </div>
-          <div className="col">
-            {" "}
             <label for="cars">Network/Chain</label>
             <Select
               options={chainOptions}
               value={selectedToChain}
-              onChange={() => handleSelectChain("dst")}
-            />{" "}
+              onChange={(value) => handleSelectChain(value, "dst")}
+            />
           </div>
         </div>
       </div>{" "}
@@ -274,11 +278,7 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
         </button>
       </div>
       <div class="alert alert-secondary" role="alert">
-        DEEBRIDGE Should be an error box, if u are on wrong network etc then
-        should say here Here u can have a thing that Here u can have a thing
-        that Here u can have a thing that Here u can have a thing that Here u
-        can have a thing that Here u can have a thing that Here u can have a
-        thing that Here u can have a thing that Here u can have a thing that
+        {errorMsg}
       </div>{" "}
     </div>
   );
