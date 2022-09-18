@@ -109,106 +109,27 @@ export const goerliABI = [
 ];
 
 export const optimismABI = [
+  { inputs: [], name: "bridgeEmpty", type: "error" },
+  { inputs: [], name: "bridgeOnOtherSideNeedsLiqudity", type: "error" },
+  { inputs: [], name: "msgValueNot1003", type: "error" },
+  { inputs: [], name: "msgValueZero", type: "error" },
+  { inputs: [], name: "notExternalBridge", type: "error" },
+  { inputs: [], name: "notOwnerAddress", type: "error" },
+  { inputs: [], name: "queueIsEmpty", type: "error" },
+  { inputs: [], name: "queueNotEmpty", type: "error" },
   {
     inputs: [],
-    stateMutability: "nonpayable",
-    type: "constructor",
-  },
-  {
-    inputs: [],
-    name: "bridgeEmpty",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "bridgeOnOtherSideNeedsLiqudity",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "bridgedAlready",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "msgValueDoesNotCoverFee",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "msgValueLessThan1000",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "msgValueZero",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "notExternalBridge",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "notOwnerAddress",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "ownerBridgeUsersBeforeWithdraw",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "queueIsEmpty",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "queueNotEmpty",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "Owner",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "automatedUnlockGoerliETH",
+    name: "automatedOptimismETH",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "bytes",
-        name: "",
-        type: "bytes",
-      },
-    ],
+    inputs: [{ internalType: "bytes", name: "", type: "bytes" }],
     name: "checkUpkeep",
     outputs: [
-      {
-        internalType: "bool",
-        name: "upkeepNeeded",
-        type: "bool",
-      },
-      {
-        internalType: "bytes",
-        name: "",
-        type: "bytes",
-      },
+      { internalType: "bool", name: "upkeepNeeded", type: "bool" },
+      { internalType: "bytes", name: "", type: "bytes" },
     ],
     stateMutability: "nonpayable",
     type: "function",
@@ -222,105 +143,16 @@ export const optimismABI = [
   },
   {
     inputs: [],
-    name: "first",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    name: "goerliBridgedETH",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "last",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "bridgeAmount",
-        type: "uint256",
-      },
-    ],
-    name: "lockTokensForOptimism",
+    name: "lockTokensForGoerli",
     outputs: [],
     stateMutability: "payable",
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    name: "lockedForOptimismETH",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_token",
-        type: "address",
-      },
-    ],
-    name: "mockOwnerOptimismBridgeAddress",
+    inputs: [{ internalType: "address", name: "_token", type: "address" }],
+    name: "mockOwnerGoerliBridgeAddress",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "optimismBridgeInstance",
-    outputs: [
-      {
-        internalType: "contract MockOptimismBridge",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
   {
@@ -338,34 +170,47 @@ export const optimismABI = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "bytes",
-        name: "",
-        type: "bytes",
-      },
-    ],
+    inputs: [{ internalType: "bytes", name: "", type: "bytes" }],
     name: "performUpkeep",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
+  { inputs: [], stateMutability: "nonpayable", type: "constructor" },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "queue",
+    inputs: [],
+    name: "first",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "goerliBridgeInstance",
     outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
+      { internalType: "contractMockGoerliBridge", name: "", type: "address" },
     ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "last",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "Owner",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    name: "queue",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "view",
     type: "function",
   },

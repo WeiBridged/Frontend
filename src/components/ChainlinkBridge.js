@@ -17,7 +17,7 @@ const ChainlinkBridge = () => {
   );
   const web3 = new Web3(window.web3.currentProvider);
 
-  const optimismAddress = "0x204D7E79c1B8BeD6b2a533377BE5B4780deD6CE2";
+  const optimismAddress = "0x0A0FDdB2f265d2De819C616ebe7cFFb7c9175Cdc";
   const goerliAddress = "0xdEa5F3E7d16D98177b66d3E874723C2bb299eeb6";
   const { userAccountAddress, setUserAccountAddress } =
     React.useContext(DataContext);
