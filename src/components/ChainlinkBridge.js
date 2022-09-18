@@ -5,11 +5,18 @@ import { goerliABI } from "../constants/chainlinkABI";
 import { optimismABI } from "../constants/chainlinkABI";
 import ethereumIcon from "../assets/icons/meth.svg";
 import { DataContext } from "../DataContext";
+import Select from "react-select";
+import { chainOptions, chainOptionsGoerliOptimism } from "../chainOptions";
 
 const ChainlinkBridge = () => {
-  const [errorMsg, setErrorMsg] = useState({});
+  const [errorMsg, setErrorMsg] = useState("");
   const [goerliBridgeContract, setGoerliBridgeContract] = useState(null);
   const [optimismBridgeContract, setOptimismBridgeContract] = useState(null);
+  const [selectedAddLiquidityChain, setSelectedAddLiquidityChain] = useState(
+    {}
+  );
+  const web3 = new Web3(window.web3.currentProvider);
+
   const optimismAddress = "0x204D7E79c1B8BeD6b2a533377BE5B4780deD6CE2";
   const goerliAddress = "0xD06245458e3479aDF4bAA9d390Cf7a335226060B";
   const { userAccountAddress, setUserAccountAddress } =
@@ -100,19 +107,38 @@ button for the locks.
   console.log(goerliBridgeContract, "GOERLI CONTRACT");
   console.log(optimismBridgeContract, "OPTIMISM");
 
-  const clickAddLiqudity = () => {
-    let web3 = new Web3(window.web3.currentProvider);
-    web3.eth.sendTransaction({
-      to: optimismAddress,
-      data: optimismBridgeContract.methods.ownerAddBridgeLiqudity().encodeABI(),
-      value: 1000,
-      //TODO, make it come from metamask, should not be hardcoded
-      from: "0xb81B9B88e764cb6b4E02c5D0F6D6D9051A61E020",
-    });
+  const clickAddLiqudity = async () => {
+    console.log(selectedAddLiquidityChain.value, "INSIDE HEREEEOO");
+    let connectedChainId = await web3.eth.net.getId();
+    console.log(connectedChainId, "CONNECTED ID");
+    if (connectedChainId !== 5) {
+      console.log("You are here inside chainid 5");
+      if (selectedAddLiquidityChain.value === "opt") {
+        console.log("Inside opt callt");
+        web3.eth.sendTransaction({
+          to: optimismAddress,
+          data: optimismBridgeContract.methods
+            .ownerAddBridgeLiqudity()
+            .encodeABI(),
+          value: 1000,
+          from: userAccountAddress[0],
+        });
+      } else {
+        web3.eth.sendTransaction({
+          to: goerliAddress,
+          data: goerliBridgeContract.methods
+            .ownerAddBridgeLiqudity()
+            .encodeABI(),
+          value: 1000,
+          from: userAccountAddress[0],
+        });
+      }
+    } else {
+      setErrorMsg("Please connect to the goerli network in your wallet!");
+    }
   };
 
   const initiateSwap = () => {
-    let web3 = new Web3(window.web3.currentProvider);
     /*    web3.eth.sendTransaction({
       to: optimismAddress,
       data: optimismBridgeContract.methods.ownerAddBridgeLiqudity().encodeABI(),
@@ -204,38 +230,36 @@ button for the locks.
           <h3>Owner</h3>
         </div>{" "}
         <div className="row p-1">
+          <div className="col">
+            {" "}
+            <label for="cars">Network/Chain</label>
+            <Select
+              options={chainOptionsGoerliOptimism}
+              value={selectedAddLiquidityChain}
+              onChange={setSelectedAddLiquidityChain}
+            />
+          </div>
           <label>Add Liqudity Amount</label>
-          <input
-            className="sc-bGbJRg iBXRhG"
-            inputMode="decimal"
-            title="Token Amount"
-            autoComplete="off"
-            autoCorrect="off"
-            type="text"
-            pattern="^[0-9]*[.,]?[0-9]*$"
-            placeholder="0.0"
-            minLength="1"
-            maxLength="79"
-            spellCheck="false"
-          />{" "}
+
           <div className="col">
             {" "}
             <button
               onClick={() => clickAddLiqudity()}
               className="btn"
-              style={{ backgroundColor: "cadetblue" }}
+              style={{ width: "100%", backgroundColor: "cadetblue" }}
             >
-              Add Liqudity
+              Lock 1000 WEI
             </button>
           </div>
         </div>
       </div>{" "}
       <div class="alert alert-secondary" role="alert">
-        CGAIINLIINK Should be an error box, if u are on wrong network etc then
-        should say here Here u can have a thing that Here u can have a thing
-        that Here u can have a thing that Here u can have a thing that Here u
-        can have a thing that Here u can have a thing that Here u can have a
+        {errorMsg}CGAIINLIINK Should be an error box, if u are on wrong network
+        etc then should say here Here u can have a thing that Here u can have a
         thing that Here u can have a thing that Here u can have a thing that
+        Here u can have a thing that Here u can have a thing that Here u can
+        have a thing that Here u can have a thing that Here u can have a thing
+        that
       </div>{" "}
     </div>
   );
