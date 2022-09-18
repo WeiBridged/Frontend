@@ -79,7 +79,7 @@ button for the locks.
   //Different arrays for different dropdowns
   const polygon = ["Ethereum Goerli"];
   const optimism = ["Ethereum Goerli"];
-  const goerli = ["Polygon Mumbai", "Optimsim Goerli"];
+  const goerli = ["Optimsim Goerli", "Polygon Mumbai"];
 
   let type = null;
   let options = null;

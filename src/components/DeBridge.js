@@ -72,6 +72,7 @@ const DeBridge = () => {
   const [selectedToChain, setSelectedToChain] = useState({});
   const [selectedToToken, setSelectedToToken] = useState({});
   const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
 
   const [selectedFromToken, setSelectedFromToken] = useState({});
   const [getTransactionData, setGetTransactionData] = useState(null);
@@ -85,19 +86,10 @@ const DeBridge = () => {
     {}
   );
   const [dstChainFallbackAddress, setDstChainFallbackAddress] = useState({});
-  const [formattedInput, setFormattedInput] = useState(0);
 
   const { userAccountAddress, setUserAccountAddress } =
     React.useContext(DataContext);
   let web3 = new Web3(window.web3.currentProvider);
-
-  /*   let srcChainId = "1";
-  let srcChainTokenIn = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
-  let srcChainTokenInAmount = "50000000";
-  let dstChainId = "137";
-  let dstChainTokenOut = "0x0000000000000000000000000000000000000000";
-  let dstChainTokenOutRecipient = "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045";
-  let dstChainFallbackAddress = "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"; */
 
   //IMPLEMENTAION FROM DEBRIDGE DOCS: https://docs.debridge.finance/deswap/api-quick-start-guide
   /*   
@@ -111,35 +103,32 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
 */
 
   const fetchSwapEstimation = async () => {
-    let formattedInput = srcChainTokenInAmount * 10 ** 18;
-    const liveUrl = `https://deswap.debridge.finance/v1.0/estimation?srcChainId=${srcChainId}&srcChainTokenIn=${srcChainTokenIn}&srcChainTokenInAmount=${formattedInput}&slippage=1&dstChainId=${dstChainId}&dstChainTokenOut=${dstChainTokenOut}&executionFeeAmount=auto`;
-    console.log(liveUrl, "LIVE URL CALLED");
-    const res = await fetch(liveUrl);
-    const data = await res.json();
-    setEstimateSwapData(data);
-    let transaction = await getTransaction();
-    return transaction;
+    try {
+      let formattedInput = srcChainTokenInAmount * 10 ** 18;
+      const liveUrl = `https://deswap.debridge.finance/v1.0/estimation?srcChainId=${srcChainId}&srcChainTokenIn=${srcChainTokenIn}&srcChainTokenInAmount=${formattedInput}&slippage=1&dstChainId=${dstChainId}&dstChainTokenOut=${dstChainTokenOut}&executionFeeAmount=auto`;
+      const res = await fetch(liveUrl);
+      const data = await res.json();
+      setEstimateSwapData(data);
+      let transaction = await getTransaction();
+      return transaction;
+    } catch (err) {
+      err.errorMessage
+        ? setErrorMsg(err.errorMessage)
+        : setErrorMsg("Something went wrong");
+    }
   };
-  /*   useEffect(() => {
-    fetchSwapEstimation();
-  }, []); */
 
   const getTransaction = async () => {
     let formattedInput = srcChainTokenInAmount * 10 ** 18;
     const liveUrl = `https://deswap.debridge.finance/v1.0/transaction?srcChainId=${srcChainId}&srcChainTokenIn=${srcChainTokenIn}&srcChainTokenInAmount=${formattedInput}&slippage=1&dstChainId=${dstChainId}&dstChainTokenOut=${dstChainTokenOut}&executionFeeAmount=auto&dstChainTokenOutRecipient=${dstChainTokenOutRecipient}&dstChainFallbackAddress=${dstChainFallbackAddress}`;
-    console.log(liveUrl, "2222LIVE UUUURL");
     fetch(liveUrl)
       .then((response) => response.json())
       .then((response) => setGetTransactionData(response))
       .catch((err) => console.error(err));
   };
 
-  console.log(estimateSwapData, "BÄÄ est swap data");
-  console.log(getTransactionData, "BÄÄ gettransaction data");
-  console.log(srcChainTokenInAmount, "TOKEN IN AMOUNT");
-
   const initiateSwap = async () => {
-    let paramObj = {
+    /*   let paramObj = {
       srcChainId: srcChainId,
       srcChainTokenIn: srcChainTokenIn,
       srcChainTokenInAmount: srcChainTokenInAmount,
@@ -147,8 +136,7 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
       dstChainFallbackAddress: dstChainFallbackAddress,
       dstChainTokenOut: dstChainTokenOut,
       dstChainTokenOutRecipient: dstChainTokenOutRecipient,
-    };
-    console.log();
+    }; */
     if (
       srcChainId &&
       srcChainTokenIn &&
@@ -158,9 +146,7 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
       dstChainTokenOut &&
       dstChainTokenOutRecipient
     ) {
-      console.log("INSIDE IF INIT SWAPPPPP");
-      let transactionData = await fetchSwapEstimation();
-      console.log("TRANSACTIONDATAAAA", transactionData);
+      await fetchSwapEstimation();
     }
   };
 
@@ -168,7 +154,7 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
     setTimeout(() => {
       console.log(
         "Delayed for 1 second.",
-        userAccountAddress,
+        userAccountAddress[0],
         getTransactionData.tx.to,
         getTransactionData.tx.data,
         getTransactionData.tx.value
@@ -184,6 +170,9 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
           if (err) {
             console.log(err, "Something went wrong");
           } else {
+            setSuccessMsg(
+              "Bridge swap successfull! You will see your tokens in your wallet."
+            );
             console.log(transactionHash, "");
           }
         }
@@ -193,7 +182,6 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
 
   const handleSelectChain = async (asset, type) => {
     if (type === "src") {
-      console.log("inside SRC");
       setSrcChainId(asset.value.chainId);
       setSrcChainTokenIn("0x0000000000000000000000000000000000000000");
 
@@ -207,7 +195,6 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
       // TODO check here if user is on right account, the dstChainId is the same as connected chainid in wallet
 
       let connectedChainId = await web3.eth.net.getId();
-      console.log(connectedChainId, "CONNECTED CHAIN ID", asset.value.chainId);
       if (
         userAccountAddress !== "" ||
         connectedChainId === 137 ||
@@ -300,7 +287,7 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
         </button>
       </div>
       <div class="alert alert-secondary" role="alert">
-        {errorMsg}
+        {errorMsg} {successMsg}
       </div>{" "}
     </div>
   );
