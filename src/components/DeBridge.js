@@ -213,6 +213,7 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
     return convertedAmount.toString();
   }, [dstChainId, srcChainId, srcChainTokenInAmount]);
 
+  //TODO: also some ugly logic, fix later
   var convertedAmount = 0;
   if (srcChainId && dstChainId && srcChainTokenInAmount) {
     console.log("bää INSIDE IF", srcChainId, dstChainId, srcChainTokenInAmount);
