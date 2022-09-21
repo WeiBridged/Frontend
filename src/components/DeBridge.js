@@ -7,6 +7,7 @@ import ethereumIcon from "../assets/icons/meth.svg";
 import arbIcon from "../assets/icons/arbitrum.svg";
 import avaxIcon from "../assets/icons/avax.svg";
 import { chainOptions } from "../chainOptions";
+import convert from "crypto-convert";
 
 import Web3 from "web3";
 import { DataContext } from "../DataContext";
@@ -189,6 +190,54 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
     }
   };
 
+  const getTickerFromChainId = (chainId) => {
+    if (chainId === 137) {
+      return "MATIC";
+    } else if (chainId === 1) {
+      return "ETH";
+    } else if (chainId === 42161) {
+      return "ETH";
+    } else if (chainId === 43114) {
+      return "AVAX";
+    }
+  };
+
+  const handleConversion = useCallback(async () => {
+    let tickerSrc = getTickerFromChainId(srcChainId);
+    let tickerDst = getTickerFromChainId(dstChainId);
+
+    let convertedAmount = await new convert.from(tickerSrc)
+      .to(tickerDst)
+      .amount(srcChainTokenInAmount);
+
+    return convertedAmount.toString();
+  }, [dstChainId, srcChainId, srcChainTokenInAmount]);
+
+  var convertedAmount = 0;
+  if (srcChainId && dstChainId && srcChainTokenInAmount) {
+    console.log("bää INSIDE IF", srcChainId, dstChainId, srcChainTokenInAmount);
+    let tickerSrc = getTickerFromChainId(srcChainId);
+    let tickerDst = getTickerFromChainId(dstChainId);
+    console.log(
+      tickerDst,
+      tickerSrc,
+      "TICKER SOOOURCES",
+      srcChainTokenInAmount,
+      typeof srcChainTokenInAmount
+    );
+    if (tickerSrc === "MATIC" || tickerDst === "MATIC") {
+      convertedAmount = "MATIC conversion unavailable";
+    } else if (tickerSrc && tickerDst) {
+      //TODO does not support matic conversion
+      convertedAmount = new convert.from(tickerSrc)
+        .to(tickerDst)
+        .amount(Number(srcChainTokenInAmount));
+    }
+
+    //let hej = new convert.from("BTC").to("USD").amount(1);
+    //console.log(hej, "bää haaj");
+  }
+
   return (
     <div className="container py-5 app-market">
       <div class="alert alert-secondary" role="alert">
@@ -235,7 +284,8 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
             minlength="1"
             maxlength="79"
             spellcheck="false"
-            value={0}
+            readOnly="true"
+            value={convertedAmount}
           />{" "}
           <div className="col">
             <label for="cars">Network/Chain</label>
