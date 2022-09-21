@@ -311,12 +311,14 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
           Swap
         </button>
       </div>
-      <div
-        className={errorMsg ? "alert alert-error" : "alert alert-secondary"}
-        role="alert"
-      >
-        {errorMsg} {successMsg}
-      </div>{" "}
+      {errorMsg || successMsg ? (
+        <div
+          className={errorMsg ? "alert alert-error" : "alert alert-secondary"}
+          role="alert"
+        >
+          {errorMsg} {successMsg}
+        </div>
+      ) : null}
     </div>
   );
 };
