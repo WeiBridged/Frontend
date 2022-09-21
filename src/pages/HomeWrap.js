@@ -16,7 +16,6 @@ export default function HomeWrap({ interval, searchText }) {
             <p>
               WeiBridged is a secure and well-trusted bridge platform that will
               enable you to reach over 5 different chains in the crypto space.
-              Using the WeiBridged is as easy as one two three!
             </p>
           </div>
         </div>
@@ -24,10 +23,8 @@ export default function HomeWrap({ interval, searchText }) {
 
       <div className="container py-5 app-market">
         <div class="alert alert-secondary" role="alert">
-          Here u can have a thing that Here u can have a thing that Here u can
-          have a thing that Here u can have a thing that Here u can have a thing
-          that Here u can have a thing that Here u can have a thing that Here u
-          can have a thing that Here u can have a thing that
+          This service allows you to use 3 different bridges, the Chainlink Mock
+          Bridge, the WeiBridged and the deBridge through their swap API.
         </div>
         <div className="row">
           <div className="col">
@@ -44,32 +41,36 @@ export default function HomeWrap({ interval, searchText }) {
                         <div className="wpb_text_column wpb_content_element ">
                           <div className="wpb_wrapper">
                             <h4 className="p1">
-                              <span className="s1">Explore Chains</span>
+                              <span className="s1">Chainlink Mock Bridge</span>
                             </h4>
                             <p className="p2">
-                              WeiBridged is a secure and well-trusted bridge
-                              platform that will enable you to reach over 5
-                              different chains in the crypto space. Using the
-                              WeiBridged is as easy as one two three! WeiBridged
-                              is a secure and well-trusted bridge platform that
-                              will enable you to reach over 5 different chains
-                              in the crypto space. Using the WeiBridged is as
-                              easy as one two three!
+                              Owner adds 1000 wei [ETH] (or another token) to
+                              another side of a bridge User requests to bridge
+                              1000 wei by paying 1003 wei (3 wei covers the 0.3%
+                              fee) After deposit is made, user is added to the
+                              user bridge queue Owner detects user in queue
+                              Locally store user in queue with Golang variable
+                              ⚠️ Assume bridge will not go down with the stored
+                              address removed from queue. ⚠️ Dequeue to remove
+                              user from the queue. Unlock the added wei [ETH]
+                              (or another token) to the user locally stored,
+                              then remove user locally.
                             </p>
-                            <h4 className="p1">We got your back!</h4>
+                            <h4 className="p1">WeiBridged</h4>
                             <p className="p1">
-                              WeiBridged is a secure and well-trusted bridge
-                              platform that will enable you to reach over 5
-                              different chains in the crypto space. Using the
-                              WeiBridged is as easy as one two three! WeiBridged
-                              is a secure and well-trusted bridge platform that
-                              will enable you to reach over 5 different chains
-                              in the crypto space. Using the WeiBridged is as
-                              easy as one two three! WeiBridged is a secure and
-                              well-trusted bridge platform that will enable you
-                              to reach over 5 different chains in the crypto
-                              space. Using the WeiBridged is as easy as one two
-                              three!
+                              -MSG.VALUE to MSG.VALUE bridge logic -Queue in
+                              Solidity pushes new user who locked tokens, then
+                              serves them first to be bridged, then removed from
+                              queue (Goerli to Optimism path) -Added 0.3% bridge
+                              fee paid to contract Owner -Able to use Geth and
+                              Prysm Goerli synced node locally to read and write
+                              to Goerli blockchain -Tested example queue logic
+                              library in contract
+                            </p>
+                            <h4 className="p1">deBridge</h4>
+                            <p className="p1">
+                              We use deBridge swap API to be able to swap
+                              between chains.
                             </p>
                           </div>
                         </div>
