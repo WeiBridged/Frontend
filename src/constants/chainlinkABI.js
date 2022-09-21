@@ -109,6 +109,7 @@ export const goerliABI = [
 ];
 
 export const optimismABI = [
+  { inputs: [], stateMutability: "nonpayable", type: "constructor" },
   { inputs: [], name: "bridgeEmpty", type: "error" },
   { inputs: [], name: "bridgeOnOtherSideNeedsLiqudity", type: "error" },
   { inputs: [], name: "msgValueNot1003", type: "error" },
@@ -119,19 +120,9 @@ export const optimismABI = [
   { inputs: [], name: "queueNotEmpty", type: "error" },
   {
     inputs: [],
-    name: "automatedOptimismETH",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "bytes", name: "", type: "bytes" }],
-    name: "checkUpkeep",
-    outputs: [
-      { internalType: "bool", name: "upkeepNeeded", type: "bool" },
-      { internalType: "bytes", name: "", type: "bytes" },
-    ],
-    stateMutability: "nonpayable",
+    name: "Owner",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -143,16 +134,23 @@ export const optimismABI = [
   },
   {
     inputs: [],
-    name: "lockTokensForGoerli",
-    outputs: [],
-    stateMutability: "payable",
+    name: "first",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [{ internalType: "address", name: "_token", type: "address" }],
-    name: "mockOwnerGoerliBridgeAddress",
+    inputs: [],
+    name: "last",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "lockTokensForGoerli",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -170,41 +168,12 @@ export const optimismABI = [
     type: "function",
   },
   {
-    inputs: [{ internalType: "bytes", name: "", type: "bytes" }],
-    name: "performUpkeep",
+    inputs: [
+      { internalType: "address", name: "userToBridge", type: "address" },
+    ],
+    name: "ownerUnlockOptimismETH",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  { inputs: [], stateMutability: "nonpayable", type: "constructor" },
-  {
-    inputs: [],
-    name: "first",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "goerliBridgeInstance",
-    outputs: [
-      { internalType: "contractMockGoerliBridge", name: "", type: "address" },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "last",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "Owner",
-    outputs: [{ internalType: "address", name: "", type: "address" }],
-    stateMutability: "view",
     type: "function",
   },
   {
