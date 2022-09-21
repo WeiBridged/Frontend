@@ -1,5 +1,5 @@
 import "../index.scss";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import Select from "react-select";
 import polygonIcon from "../assets/icons/polygon.svg";
@@ -51,7 +51,7 @@ dstChainTokenOutRecipient, the address target tokens should be transferred to af
 dstChainFallbackAddress, the address target or intermediary tokens should be transferred in case of a failed swap (e.g., a swap may fail due to slippage constraints). 
 */
 
-  const fetchSwapEstimation = async () => {
+  const fetchSwapEstimation = useCallback(async () => {
     try {
       let formattedInput = srcChainTokenInAmount * 10 ** 18;
       const liveUrl = `https://deswap.debridge.finance/v1.0/estimation?srcChainId=${srcChainId}&srcChainTokenIn=${srcChainTokenIn}&srcChainTokenInAmount=${formattedInput}&slippage=1&dstChainId=${dstChainId}&dstChainTokenOut=${dstChainTokenOut}&executionFeeAmount=auto`;
@@ -64,18 +64,41 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
       err.errorMessage
         ? setErrorMsg(err.errorMessage)
         : setErrorMsg("Something went wrong");
+      console.log("11ERROOOR");
     }
-  };
+  }, [
+    dstChainId,
+    dstChainTokenOut,
+    srcChainId,
+    srcChainTokenIn,
+    srcChainTokenInAmount,
+  ]);
 
-  const getTransaction = async () => {
+  const getTransaction = useCallback(async () => {
     let formattedInput = srcChainTokenInAmount * 10 ** 18;
     const liveUrl = `https://deswap.debridge.finance/v1.0/transaction?srcChainId=${srcChainId}&srcChainTokenIn=${srcChainTokenIn}&srcChainTokenInAmount=${formattedInput}&slippage=1&dstChainId=${dstChainId}&dstChainTokenOut=${dstChainTokenOut}&executionFeeAmount=auto&dstChainTokenOutRecipient=${dstChainTokenOutRecipient}&dstChainFallbackAddress=${dstChainFallbackAddress}`;
     fetch(liveUrl)
       .then((response) => response.json())
-      .then((response) => setGetTransactionData(response))
-      .catch((err) => console.error(err));
-  };
-
+      .then((response) => {
+        response.errorMessage
+          ? setErrorMsg(response.errorMessage)
+          : setGetTransactionData(response);
+      })
+      .catch((err) => {
+        err.errorMessage
+          ? setErrorMsg(err.errorMessage)
+          : setErrorMsg("Something went wrong", err);
+        console.log("ERROOOR");
+      });
+  }, [
+    dstChainFallbackAddress,
+    dstChainId,
+    dstChainTokenOut,
+    dstChainTokenOutRecipient,
+    srcChainId,
+    srcChainTokenIn,
+    srcChainTokenInAmount,
+  ]);
   const initiateSwap = async () => {
     /*   let paramObj = {
       srcChainId: srcChainId,
@@ -99,6 +122,7 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
     }
   };
 
+  //TODO: Fix this to a better logic if u have time
   if (getTransactionData) {
     setTimeout(() => {
       console.log(
@@ -108,24 +132,28 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
         getTransactionData.tx.data,
         getTransactionData.tx.value
       );
-      web3.eth.sendTransaction(
-        {
-          from: userAccountAddress[0],
-          to: getTransactionData.tx.to,
-          data: getTransactionData.tx.data,
-          value: getTransactionData.tx.value,
-        },
-        function (err, transactionHash) {
-          if (err) {
-            console.log(err, "Something went wrong");
-          } else {
-            setSuccessMsg(
-              "Bridge swap successfull! You will see your tokens in your wallet."
-            );
-            console.log(transactionHash, "");
+      try {
+        web3.eth.sendTransaction(
+          {
+            from: userAccountAddress[0],
+            to: getTransactionData.tx.to,
+            data: getTransactionData.tx.data,
+            value: getTransactionData.tx.value,
+          },
+          function (err, transactionHash) {
+            if (err) {
+              console.log(err, "Something went wrong");
+            } else {
+              setSuccessMsg(
+                "Bridge swap successfull! You will see your tokens in your wallet."
+              );
+              console.log(transactionHash, "");
+            }
           }
-        }
-      );
+        );
+      } catch (err) {
+        setErrorMsg("Something went wrong", err);
+      }
     }, 1000);
   }
 
@@ -141,8 +169,6 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
       setDstChainId(asset.value.chainId);
       setDstChainTokenOut("0x0000000000000000000000000000000000000000");
       setSelectedToChain(asset);
-      // TODO check here if user is on right account, the dstChainId is the same as connected chainid in wallet
-
       let connectedChainId = await web3.eth.net.getId();
       if (
         userAccountAddress !== "" ||
@@ -235,7 +261,10 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
           Swap
         </button>
       </div>
-      <div class="alert alert-secondary" role="alert">
+      <div
+        className={errorMsg ? "alert alert-error" : "alert alert-secondary"}
+        role="alert"
+      >
         {errorMsg} {successMsg}
       </div>{" "}
     </div>
