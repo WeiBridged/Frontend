@@ -235,7 +235,7 @@ button for the locks.
         web3.eth.sendTransaction({
           to: goerliMumbaiAddress,
           data: srcGoerliBridgeToMumbai.methods
-            .lockTokensForOptimism()
+            .ownerRemoveBridgeLiqudity()
             .encodeABI(),
           from: userAccountAddress[0],
         });
@@ -369,10 +369,7 @@ button for the locks.
         <div className="row p-1">
           <div className="col">
             {" "}
-            <label for="cars">
-              {" "}
-              Send WETH to this address [for Goerli to Mumbai bridge]
-            </label>
+            <label for="cars"> Withdraw</label>
             <Select
               options={chainOptionsOwner}
               value={selectedWithdrawal}
