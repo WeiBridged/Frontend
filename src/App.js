@@ -33,15 +33,16 @@ function App() {
     const accountFromMetaMask = await web3.eth.getAccounts();
     console.log(accountFromMetaMask, "account in app.js before set state");
     setUserAccountAddress(accountFromMetaMask);
-    const name = await provider.lookupAddress(accountFromMetaMask);
+    const name = await provider.lookupAddress(accountFromMetaMask[0]);
+    console.log(accountFromMetaMask[0], "account from metamask");
+    console.log(name, "wats name??");
+    setConnectedAddrValue(
+      String(accountFromMetaMask).substr(0, 5) +
+        "..." +
+        String(accountFromMetaMask).substr(38, 4)
+    );
     if (name) {
       setConnectedAddrValue(name);
-    } else {
-      setConnectedAddrValue(
-        String(accountFromMetaMask).substr(0, 5) +
-          "..." +
-          String(accountFromMetaMask).substr(38, 4)
-      );
     }
 
     console.log(userAccountAddress, "user metamask address after set state");
