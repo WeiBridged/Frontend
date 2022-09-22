@@ -57,7 +57,7 @@ button for the locks.
       const chainId = await web3.eth.getChainId();
       console.log(chainId);
       if (chainId !== 5) {
-        setErrorMsg("Must be on the Goerli test network");
+        setErrorMsg("Please connect your address to the Goerli test network");
       }
 
       const goerliContract = new web3.eth.Contract(goerliABI, goerliAddress);
@@ -79,30 +79,6 @@ button for the locks.
       setSrcOptimismBridgeContract(optimismContract);
       srcGoerliBridgeMumbai(mumbaiContract);
       setSrcMumbaiToGoerliContract(mumbaiToGoerliContract);
-
-      /*       if (goerliBridgeContract !== null) {
-        goerliBridgeContract.methods
-          .expirationOccured()
-          .call()
-          .then((data) => {
-            console.log(data, "EXPIRATION OCC??????");
-            setExpirationOccurred(data);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-        if (optimismContract !== null) {
-          optimismContract.methods
-            .balanceOf(ELECTRICKEEPER_CONTRACT_ADDRESS)
-            .call()
-            .then((data) => {
-              setElectricKeeperChainlinkBalance(web3.utils.fromWei(data));
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }
-      } */
     };
     loadBlockchainData();
   }, []);
@@ -293,31 +269,59 @@ button for the locks.
             >
               Add Bridge Liquidity ETH
             </button>
-            <div>
-              <label>
-                Send MATIC to this address [for Mumbai to Goerli bridge]
-              </label>{" "}
-              <br></br>
-              https://goerli.etherscan.io/address/0x420E50B601E92933638b29DD273d8b692CdB3a9D
-            </div>
-            <p>
-              <label>
-                Send WETH to this address [for Goerli to Mumbai bridge]
-              </label>{" "}
-              <br></br>{" "}
-              https://goerli.etherscan.io/address/0x5BFef6EA00a2B15c97Ddd68b76F03200a010e627
-            </p>
+          </div>
+        </div>
+        <div className="row p-1">
+          <div className="col">
+            {" "}
+            <label for="cars">
+              {" "}
+              Send WETH to this address [for Goerli to Mumbai bridge]
+            </label>
+            <a
+              style={{
+                width: "30%",
+                backgroundColor: "cadetblue",
+                marginLeft: "15%",
+              }}
+              href="https://goerli.etherscan.io/address/0x5BFef6EA00a2B15c97Ddd68b76F03200a010e627"
+              class="btn"
+            >
+              0x5BF...e627
+            </a>
+          </div>
+        </div>
+        <div
+          style={{
+            marginTop: 15,
+          }}
+          className="row p-1"
+        >
+          <div className="col">
+            {" "}
+            <label for="cars">
+              {" "}
+              Send MATIC to this address [for Mumbai to Goerli bridge]
+            </label>
+            <a
+              style={{
+                width: "30%",
+                backgroundColor: "cadetblue",
+                marginLeft: "15%",
+              }}
+              href=" https://goerli.etherscan.io/address/0x420E50B601E92933638b29DD273d8b692CdB3a9D"
+              class="btn"
+            >
+              0x420...3a9D
+            </a>
           </div>
         </div>
       </div>{" "}
-      <div class="alert alert-secondary" role="alert">
-        {errorMsg}CGAIINLIINK Should be an error box, if u are on wrong network
-        etc then should say here Here u can have a thing that Here u can have a
-        thing that Here u can have a thing that Here u can have a thing that
-        Here u can have a thing that Here u can have a thing that Here u can
-        have a thing that Here u can have a thing that Here u can have a thing
-        that
-      </div>{" "}
+      {errorMsg ? (
+        <div class="alert alert-error" role="alert">
+          {errorMsg}
+        </div>
+      ) : null}
     </div>
   );
 };

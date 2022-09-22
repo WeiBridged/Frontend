@@ -1,8 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { DataContext } from "./DataContext";
 
-import { isMobile } from "react-device-detect";
-import React, { Component, useEffect, useState } from "react";
+import React, { useState } from "react";
 import Web3 from "web3";
 import HomeWrap from "./pages/HomeWrap";
 
