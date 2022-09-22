@@ -2,7 +2,11 @@ import "../index.scss";
 import React, { useState, useEffect } from "react";
 import Web3 from "web3";
 import { goerliABI } from "../constants/chainlinkABI";
-import { optimismABI, goerliToMumbai } from "../constants/chainlinkABI";
+import {
+  optimismABI,
+  goerliToMumbai,
+  mumbaiToGoerliABI,
+} from "../constants/chainlinkABI";
 import ethereumIcon from "../assets/icons/meth.svg";
 import { DataContext } from "../DataContext";
 import Select from "react-select";
@@ -11,7 +15,9 @@ import { chainOptions, chainOptionsGoerliOptimism } from "../chainOptions";
 const ChainlinkBridge = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [srcGoerliBridgeContract, setSrcGoerliBridgeContract] = useState(null);
-  const [dstMumbaiContract, setDstMumbaiContract] = useState(null);
+  const [srcGoerliBridgeToMumbai, srcGoerliBridgeMumbai] = useState(null);
+  const [srcMumbaiToGoerliContract, setSrcMumbaiToGoerliContract] =
+    useState(null);
 
   const [srcOptimismBridgeContract, setSrcOptimismBridgeContract] =
     useState(null);
@@ -26,7 +32,8 @@ const ChainlinkBridge = () => {
 
   const optimismAddress = "0x0A0FDdB2f265d2De819C616ebe7cFFb7c9175Cdc";
   const goerliAddress = "0xdEa5F3E7d16D98177b66d3E874723C2bb299eeb6";
-  const goerliMumbaiAddress = "0x5BFef6EA00a2B15c97Ddd68b76F03200a010e627";
+  const goerliMumbaiAddress = "0x420E50B601E92933638b29DD273d8b692CdB3a9D";
+  const mumbaiToGoerliAddress = "0x5BFef6EA00a2B15c97Ddd68b76F03200a010e627";
 
   const { userAccountAddress, setUserAccountAddress } =
     React.useContext(DataContext);
@@ -59,13 +66,19 @@ button for the locks.
         goerliMumbaiAddress
       );
 
+      const mumbaiToGoerliContract = new web3.eth.Contract(
+        mumbaiToGoerliABI,
+        mumbaiToGoerliAddress
+      );
+
       const optimismContract = new web3.eth.Contract(
         optimismABI,
         optimismAddress
       );
       setSrcGoerliBridgeContract(goerliContract);
       setSrcOptimismBridgeContract(optimismContract);
-      setDstMumbaiContract(mumbaiContract);
+      srcGoerliBridgeMumbai(mumbaiContract);
+      setSrcMumbaiToGoerliContract(mumbaiToGoerliContract);
 
       /*       if (goerliBridgeContract !== null) {
         goerliBridgeContract.methods
@@ -154,7 +167,7 @@ button for the locks.
     }
   };
 
-  console.log(dstMumbaiContract, "Mumbai contract");
+  console.log(srcGoerliBridgeToMumbai, "Mumbai contract");
 
   const initiateSwap = (type) => {
     if (userAccountAddress) {
@@ -168,10 +181,15 @@ button for the locks.
           from: userAccountAddress[0],
         });
       } else if (srcChainSelected === "Polygon Mumbai") {
+        console.log(
+          srcGoerliBridgeMumbai.methods,
+          goerliMumbaiAddress,
+          "BÄÄÄÄEÄEÄEÄ"
+        );
         web3.eth.sendTransaction({
-          to: goerliAddress,
-          data: srcGoerliBridgeContract.methods
-            .lockTokensForOptimism()
+          to: mumbaiToGoerliAddress,
+          data: srcMumbaiToGoerliContract.methods
+            .lockTokensForGoerli()
             .encodeABI(),
           value: 1003,
           from: userAccountAddress[0],
@@ -187,14 +205,16 @@ button for the locks.
             from: userAccountAddress[0],
           });
         } else if (selectedDstChain === "Polygon Mumbai")
-          web3.eth.sendTransaction({
-            to: goerliAddress,
-            data: srcGoerliBridgeContract.methods
-              .lockTokensForOptimism()
-              .encodeABI(),
-            value: 1003,
-            from: userAccountAddress[0],
-          });
+          console.log("GOT IN polygon mumbai", goerliMumbaiAddress);
+
+        web3.eth.sendTransaction({
+          to: goerliMumbaiAddress,
+          data: srcGoerliBridgeToMumbai.methods
+            .lockTokensForOptimism()
+            .encodeABI(),
+          value: 1003,
+          from: userAccountAddress[0],
+        });
       }
     } else {
       setErrorMsg("Connect to Goerli");
@@ -277,13 +297,15 @@ button for the locks.
               <label>
                 Send MATIC to this address [for Mumbai to Goerli bridge]
               </label>{" "}
-              <br></br> 0x420E50B601E92933638b29DD273d8b692CdB3a9D
+              <br></br>
+              https://goerli.etherscan.io/address/0x420E50B601E92933638b29DD273d8b692CdB3a9D
             </div>
             <p>
               <label>
                 Send WETH to this address [for Goerli to Mumbai bridge]
               </label>{" "}
-              <br></br> 0x5BFef6EA00a2B15c97Ddd68b76F03200a010e627
+              <br></br>{" "}
+              https://goerli.etherscan.io/address/0x5BFef6EA00a2B15c97Ddd68b76F03200a010e627
             </p>
           </div>
         </div>
