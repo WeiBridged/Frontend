@@ -271,7 +271,7 @@ button for the locks.
               className="btn"
               style={{ width: "100%", backgroundColor: "cadetblue" }}
             >
-              Lock 1000 WEI
+              Add Bridge Liquidity ETH
             </button>
             <div>
               <label>
