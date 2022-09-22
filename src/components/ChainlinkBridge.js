@@ -205,6 +205,44 @@ button for the locks.
     }
   };
 
+  const handleWithdrawClick = () => {
+    if (userAccountAddress) {
+      if (selectedWithdrawal.value === "optimism") {
+        web3.eth.sendTransaction({
+          to: optimismAddress,
+          data: srcOptimismBridgeContract.methods
+            .ownerRemoveBridgeLiqudity()
+            .encodeABI(),
+          from: userAccountAddress[0],
+        });
+      } else if (selectedWithdrawal.value === "goerli") {
+        web3.eth.sendTransaction({
+          to: goerliAddress,
+          data: srcGoerliBridgeContract.methods
+            .ownerRemoveBridgeLiqudity()
+            .encodeABI(),
+          from: userAccountAddress[0],
+        });
+      } else if (selectedWithdrawal.value === "mumbai") {
+        web3.eth.sendTransaction({
+          to: mumbaiToGoerliAddress,
+          data: srcMumbaiToGoerliContract.methods
+            .ownerRemoveBridgeLiqudity()
+            .encodeABI(),
+          from: userAccountAddress[0],
+        });
+      } else if (selectedWithdrawal.value === "goerliMumbai") {
+        web3.eth.sendTransaction({
+          to: goerliMumbaiAddress,
+          data: srcGoerliBridgeToMumbai.methods
+            .lockTokensForOptimism()
+            .encodeABI(),
+          from: userAccountAddress[0],
+        });
+      }
+    } else setErrorMsg("Please connect your wallet!");
+  };
+
   return (
     <div className="container py-5 app-market">
       <div class="alert alert-secondary" role="alert">
@@ -342,7 +380,9 @@ button for the locks.
             />
           </div>
           <div className="col">
-            <button className="btn btn-primary">Withdraw</button>
+            <button onClick={handleWithdrawClick} className="btn btn-primary">
+              Withdraw
+            </button>
           </div>
         </div>
       </div>{" "}
