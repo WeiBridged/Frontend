@@ -77,3 +77,44 @@ export const chainOptionsGoerliOptimism = [
     color: "#5243AA",
   },
 ];
+
+export const chainOptionsOwner = [
+  {
+    value: "optimism",
+    label: (
+      <>
+        <img src={optIcon} width={20} height={20}></img> Optimsm Goerli ETH
+      </>
+    ),
+    color: "#5243AA",
+  },
+  {
+    value: "goerli",
+    label: (
+      <>
+        <img src={ethereumIcon} width={20} height={20}></img> Ethereum Goerli
+        ETH
+      </>
+    ),
+    color: "#5243AA",
+  },
+  {
+    value: "mumbai",
+    label: (
+      <>
+        <img src={polygonIcon} width={20} height={20}></img> Polygon Mumbai WETH
+      </>
+    ),
+    color: "#5243AA",
+  },
+  {
+    value: "goerliMatic",
+    label: (
+      <>
+        <img src={ethereumIcon} width={20} height={20}></img> Ethereum Goerli
+        MATIC
+      </>
+    ),
+    color: "#5243AA",
+  },
+];

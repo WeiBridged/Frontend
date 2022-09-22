@@ -10,7 +10,11 @@ import {
 import ethereumIcon from "../assets/icons/meth.svg";
 import { DataContext } from "../DataContext";
 import Select from "react-select";
-import { chainOptions, chainOptionsGoerliOptimism } from "../chainOptions";
+import {
+  chainOptions,
+  chainOptionsGoerliOptimism,
+  chainOptionsOwner,
+} from "../chainOptions";
 
 const ChainlinkBridge = () => {
   const [errorMsg, setErrorMsg] = useState("");
@@ -26,6 +30,8 @@ const ChainlinkBridge = () => {
   const [selectedAddLiquidityChain, setSelectedAddLiquidityChain] = useState(
     {}
   );
+
+  const [selectedWithdrawal, setSelectedWithdrawal] = useState();
 
   console.log(selectedDstChain, "DSSST CHAIN");
   const web3 = new Web3(window.web3.currentProvider);
@@ -320,6 +326,23 @@ button for the locks.
             >
               0x420...3a9D
             </a>
+          </div>
+        </div>
+        <div className="row p-1">
+          <div className="col">
+            {" "}
+            <label for="cars">
+              {" "}
+              Send WETH to this address [for Goerli to Mumbai bridge]
+            </label>
+            <Select
+              options={chainOptionsOwner}
+              value={selectedWithdrawal}
+              onChange={setSelectedWithdrawal}
+            />
+          </div>
+          <div className="col">
+            <button className="btn btn-primary">Withdraw</button>
           </div>
         </div>
       </div>{" "}
