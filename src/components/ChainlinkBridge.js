@@ -2,7 +2,7 @@ import "../index.scss";
 import React, { useState, useEffect } from "react";
 import Web3 from "web3";
 import { goerliABI } from "../constants/chainlinkABI";
-import { optimismABI } from "../constants/chainlinkABI";
+import { optimismABI, goerliToMumbai } from "../constants/chainlinkABI";
 import ethereumIcon from "../assets/icons/meth.svg";
 import { DataContext } from "../DataContext";
 import Select from "react-select";
@@ -11,6 +11,8 @@ import { chainOptions, chainOptionsGoerliOptimism } from "../chainOptions";
 const ChainlinkBridge = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [srcGoerliBridgeContract, setSrcGoerliBridgeContract] = useState(null);
+  const [dstMumbaiContract, setDstMumbaiContract] = useState(null);
+
   const [srcOptimismBridgeContract, setSrcOptimismBridgeContract] =
     useState(null);
   const [selectedDstChain, setSelectedDstChain] = useState("Optimism Goerli");
@@ -24,6 +26,8 @@ const ChainlinkBridge = () => {
 
   const optimismAddress = "0x0A0FDdB2f265d2De819C616ebe7cFFb7c9175Cdc";
   const goerliAddress = "0xdEa5F3E7d16D98177b66d3E874723C2bb299eeb6";
+  const goerliMumbaiAddress = "0x5BFef6EA00a2B15c97Ddd68b76F03200a010e627";
+
   const { userAccountAddress, setUserAccountAddress } =
     React.useContext(DataContext);
 
@@ -50,12 +54,18 @@ button for the locks.
       }
 
       const goerliContract = new web3.eth.Contract(goerliABI, goerliAddress);
+      const mumbaiContract = new web3.eth.Contract(
+        goerliToMumbai,
+        goerliMumbaiAddress
+      );
+
       const optimismContract = new web3.eth.Contract(
         optimismABI,
         optimismAddress
       );
       setSrcGoerliBridgeContract(goerliContract);
       setSrcOptimismBridgeContract(optimismContract);
+      setDstMumbaiContract(mumbaiContract);
 
       /*       if (goerliBridgeContract !== null) {
         goerliBridgeContract.methods
@@ -113,16 +123,10 @@ button for the locks.
     options = type.map((el) => <option key={el}>{el}</option>);
   }
 
-  console.log(srcGoerliBridgeContract, "GOERLI CONTRACT");
-  console.log(srcOptimismBridgeContract, "OPTIMISM");
-  console.log(options, "options?");
-
   const clickAddLiqudity = async () => {
-    console.log(selectedAddLiquidityChain.value, "INSIDE HEREEEOO");
     let connectedChainId = await web3.eth.net.getId();
     console.log(connectedChainId, "CONNECTED ID");
     if (connectedChainId === 5 && userAccountAddress) {
-      console.log("You are here inside chainid 5");
       if (selectedAddLiquidityChain.value === "opt") {
         console.log("Inside opt callt");
         web3.eth.sendTransaction({
@@ -150,16 +154,10 @@ button for the locks.
     }
   };
 
-  console.log(srcChainSelected, "what is selected?");
+  console.log(dstMumbaiContract, "Mumbai contract");
 
   const initiateSwap = (type) => {
     if (userAccountAddress) {
-      console.log(
-        srcChainSelected,
-        "SRC CHAIN SELECTED BEFORE",
-        selectedDstChain,
-        "SELECTED DST CHAIN"
-      );
       if (srcChainSelected === "Optimism Goerli") {
         web3.eth.sendTransaction({
           to: optimismAddress,
@@ -180,12 +178,6 @@ button for the locks.
         });
       } else if (srcChainSelected === "Ethereum Goerli") {
         if (selectedDstChain === "Optimism Goerli") {
-          console.log(
-            srcGoerliBridgeContract,
-            "SRC CHAIN SELECTED BEFORE",
-            selectedDstChain,
-            "SELECTED DST CHAIN"
-          );
           web3.eth.sendTransaction({
             to: goerliAddress,
             data: srcGoerliBridgeContract.methods
@@ -218,22 +210,9 @@ button for the locks.
 
         <div className="row p-1">
           <label>From</label>
-          <input
-            className="sc-bGbJRg iBXRhG"
-            inputMode="decimal"
-            title="Token Amount"
-            autoComplete="off"
-            autoCorrect="off"
-            type="text"
-            pattern="^[0-9]*[.,]?[0-9]*$"
-            placeholder="0.0"
-            minLength="1"
-            maxLength="79"
-            spellCheck="false"
-          />{" "}
+
           <div className="col">
             {" "}
-            <label for="cars">Network/Chain</label>
             <select className="form-select" onChange={selectSrcChain}>
               <option>Choose...</option>
               <option>Polygon Mumbai</option>
@@ -244,22 +223,8 @@ button for the locks.
         </div>
         <div className="row p-1">
           <label>To</label>
-          <input
-            className="sc-bGbJRg iBXRhG"
-            inputMode="decimal"
-            title="Token Amount"
-            autoComplete="off"
-            autoCorrect="off"
-            type="text"
-            pattern="^[0-9]*[.,]?[0-9]*$"
-            placeholder="0.0"
-            minLength="1"
-            maxLength="79"
-            spellCheck="false"
-          />{" "}
           <div className="col">
             {" "}
-            <label>Network/Chain</label>
             <select className="form-select" onChange={(e) => selectDstChain(e)}>
               {
                 // Render the options based on users first selection
@@ -280,7 +245,7 @@ button for the locks.
           onClick={() => initiateSwap()}
           className="btn"
         >
-          Swap
+          Lock 1000 WEI To Bridge
         </button>
       </div>
       <div class="alert alert-secondary" role="alert">
@@ -308,6 +273,18 @@ button for the locks.
             >
               Lock 1000 WEI
             </button>
+            <div>
+              <label>
+                Send MATIC to this address [for Mumbai to Goerli bridge]
+              </label>{" "}
+              <br></br> 0x420E50B601E92933638b29DD273d8b692CdB3a9D
+            </div>
+            <p>
+              <label>
+                Send WETH to this address [for Goerli to Mumbai bridge]
+              </label>{" "}
+              <br></br> 0x5BFef6EA00a2B15c97Ddd68b76F03200a010e627
+            </p>
           </div>
         </div>
       </div>{" "}
