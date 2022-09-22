@@ -193,7 +193,9 @@ button for the locks.
         });
       }
     } else {
-      setErrorMsg("Connect to Goerli");
+      setErrorMsg(
+        "You need to connect your wallet to the Goerli network to be able to bridge."
+      );
     }
   };
 
@@ -265,7 +267,11 @@ button for the locks.
             <button
               onClick={() => clickAddLiqudity()}
               className="btn"
-              style={{ width: "100%", backgroundColor: "cadetblue" }}
+              style={{
+                width: "100%",
+                backgroundColor: "cadetblue",
+                marginBottom: 30,
+              }}
             >
               Add Bridge Liquidity ETH
             </button>
