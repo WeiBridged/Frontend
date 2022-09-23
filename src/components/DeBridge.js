@@ -193,17 +193,6 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
     }
   };
 
-  const handleConversion = useCallback(async () => {
-    let tickerSrc = getTickerFromChainId(srcChainId);
-    let tickerDst = getTickerFromChainId(dstChainId);
-
-    let convertedAmount = await new convert.from(tickerSrc)
-      .to(tickerDst)
-      .amount(srcChainTokenInAmount);
-
-    return convertedAmount.toString();
-  }, [dstChainId, srcChainId, srcChainTokenInAmount]);
-
   //TODO: also some ugly logic, fix later
   var convertedAmount = 0;
   if (srcChainId && dstChainId && srcChainTokenInAmount) {
