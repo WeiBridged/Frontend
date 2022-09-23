@@ -65,7 +65,6 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
       err.errorMessage
         ? setErrorMsg(err.errorMessage)
         : setErrorMsg("Something went wrong");
-      console.log("11ERROOOR");
     }
   }, [
     dstChainId,
@@ -89,7 +88,6 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
         err.errorMessage
           ? setErrorMsg(err.errorMessage)
           : setErrorMsg("Something went wrong", err);
-        console.log("ERROOOR");
       });
   }, [
     dstChainFallbackAddress,
@@ -126,13 +124,6 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
   //TODO: Fix this to a better logic if u have time
   if (getTransactionData) {
     setTimeout(() => {
-      console.log(
-        "Delayed for 1 second.",
-        userAccountAddress[0],
-        getTransactionData.tx.to,
-        getTransactionData.tx.data,
-        getTransactionData.tx.value
-      );
       try {
         web3.eth.sendTransaction(
           {
@@ -143,7 +134,7 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
           },
           function (err, transactionHash) {
             if (err) {
-              console.log(err, "Something went wrong");
+              setErrorMsg(err, " Something went wrong!");
             } else {
               setSuccessMsg(
                 "Bridge swap successfull! You will see your tokens in your wallet."
@@ -216,27 +207,19 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
   //TODO: also some ugly logic, fix later
   var convertedAmount = 0;
   if (srcChainId && dstChainId && srcChainTokenInAmount) {
-    console.log("bää INSIDE IF", srcChainId, dstChainId, srcChainTokenInAmount);
     let tickerSrc = getTickerFromChainId(srcChainId);
     let tickerDst = getTickerFromChainId(dstChainId);
-    console.log(
-      tickerDst,
-      tickerSrc,
-      "TICKER SOOOURCES",
-      srcChainTokenInAmount,
-      typeof srcChainTokenInAmount
-    );
-    if (tickerSrc === "MATIC" || tickerDst === "MATIC") {
-      convertedAmount = "MATIC conversion unavailable";
+
+    if (tickerDst === "MATIC") {
+      convertedAmount = "~" + (srcChainTokenInAmount * 1735).toString();
+    } else if (tickerSrc === "MATIC") {
+      convertedAmount = "~" + (srcChainTokenInAmount / 1735).toString();
     } else if (tickerSrc && tickerDst) {
       //TODO does not support matic conversion
       convertedAmount = new convert.from(tickerSrc)
         .to(tickerDst)
         .amount(Number(srcChainTokenInAmount));
     }
-
-    //let hej = new convert.from("BTC").to("USD").amount(1);
-    //console.log(hej, "bää haaj");
   }
 
   return (

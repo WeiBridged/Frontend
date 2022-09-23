@@ -37,7 +37,6 @@ const ChainlinkBridge = () => {
     React.useContext(DataContext);
 
   const [srcChainSelected, setSelected] = React.useState("");
-  console.log(userAccountAddress, "useracc addrr");
   /*   
 for each option there should be a lock, owner has to have funds check that and throw error
 button for the locks. 
@@ -51,7 +50,6 @@ button for the locks.
       const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
 
       const chainId = await web3.eth.getChainId();
-      console.log(chainId);
       if (chainId !== 5) {
         setErrorMsg("Please connect your address to the Goerli test network");
       }
@@ -82,7 +80,6 @@ button for the locks.
   };
 
   const selectDstChain = (event) => {
-    console.log(event.target.value, "wat is val?");
     setSelectedDstChain(event.target.value);
   };
   //Different arrays for different dropdowns
@@ -108,10 +105,8 @@ button for the locks.
 
   const clickAddLiqudity = async () => {
     let connectedChainId = await web3.eth.net.getId();
-    console.log(connectedChainId, "CONNECTED ID");
     if (connectedChainId === 5 && userAccountAddress) {
       if (selectedAddLiquidityChain.value === "opt") {
-        console.log("Inside opt callt");
         web3.eth.sendTransaction({
           to: optimismAddress,
           data: srcOptimismBridgeContract.methods

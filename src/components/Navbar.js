@@ -5,7 +5,6 @@ const Navbar = ({
   connectedAddrValue,
   userAccountAddress,
 }) => {
-  console.log(connectedAddrValue, "user", userAccountAddress);
   return (
     <div className="container-fluid m-0 py-2 bg-black align-middle text-center text-banner">
       <a href="/#/" className="text-white hov">
