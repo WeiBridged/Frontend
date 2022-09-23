@@ -12,7 +12,6 @@ import DeBridge from "./components/DeBridge";
 import ChainlinkBridge from "./components/ChainlinkBridge";
 import Weibridged from "./components/Weibridged";
 import { ethers } from "ethers";
-import { rpcURL } from "./.config";
 
 const MyContext = React.createContext();
 
@@ -20,13 +19,14 @@ function App() {
   const [userAccountAddress, setUserAccountAddress] = useState("");
   const [connectedAddrValue, setConnectedAddrValue] = useState(" ");
 
-  const provider = new ethers.providers.JsonRpcProvider(rpcURL);
-
   const handleConnectMetamask = async () => {
     const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
     // const network = await web3.eth.net.getNetworkType();
     App.web3Provider = window.ethereum;
+    console.log(window.ethereum, "wats dis");
     await window.ethereum.enable();
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+
     //Fetch account data:
     const accountFromMetaMask = await web3.eth.getAccounts();
     setUserAccountAddress(accountFromMetaMask);
