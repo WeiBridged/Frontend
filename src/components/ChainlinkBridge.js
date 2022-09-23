@@ -7,13 +7,8 @@ import {
   goerliToMumbai,
   mumbaiToGoerliABI,
 } from "../constants/chainlinkABI";
-import ethereumIcon from "../assets/icons/meth.svg";
 import { DataContext } from "../DataContext";
-import {
-  chainOptions,
-  chainOptionsGoerliOptimism,
-  chainOptionsOwner,
-} from "../chainOptions";
+import { chainOptionsGoerliOptimism, chainOptionsOwner } from "../chainOptions";
 import Owner from "../pages/Owner";
 
 const ChainlinkBridge = () => {
@@ -22,22 +17,17 @@ const ChainlinkBridge = () => {
   const [srcGoerliBridgeToMumbai, srcGoerliBridgeMumbai] = useState(null);
   const [srcMumbaiToGoerliContract, setSrcMumbaiToGoerliContract] =
     useState(null);
-
   const [srcOptimismBridgeContract, setSrcOptimismBridgeContract] =
     useState(null);
   const [selectedDstChain, setSelectedDstChain] = useState("Optimism Goerli");
-
   const [selectedAddLiquidityChain, setSelectedAddLiquidityChain] = useState(
     {}
   );
 
   const [showOwner, setShowOwner] = useState(false);
-
   const [selectedWithdrawal, setSelectedWithdrawal] = useState();
 
-  console.log(selectedDstChain, "DSSST CHAIN");
   const web3 = new Web3(window.web3.currentProvider);
-
   const optimismAddress = "0x0A0FDdB2f265d2De819C616ebe7cFFb7c9175Cdc";
   const goerliAddress = "0xdEa5F3E7d16D98177b66d3E874723C2bb299eeb6";
   const goerliMumbaiAddress = "0x420E50B601E92933638b29DD273d8b692CdB3a9D";
@@ -71,12 +61,10 @@ button for the locks.
         goerliToMumbai,
         goerliMumbaiAddress
       );
-
       const mumbaiToGoerliContract = new web3.eth.Contract(
         mumbaiToGoerliABI,
         mumbaiToGoerliAddress
       );
-
       const optimismContract = new web3.eth.Contract(
         optimismABI,
         optimismAddress
@@ -236,8 +224,12 @@ button for the locks.
 
   return (
     <div className="container py-5 app-market">
-      <button onClick={() => setShowOwner(true)} className="btn btn-primary">
-        Owner
+      <button
+        style={{ marginBottom: 40 }}
+        onClick={() => setShowOwner(!showOwner)}
+        className="btn btn-primary"
+      >
+        {showOwner ? "Go to User" : "Go to Owner"}
       </button>
       {showOwner ? (
         <Owner
@@ -261,7 +253,6 @@ button for the locks.
               <label>From</label>
 
               <div className="col">
-                {" "}
                 <select className="form-select" onChange={selectSrcChain}>
                   <option>Choose...</option>
                   <option>Polygon Mumbai</option>
@@ -273,7 +264,6 @@ button for the locks.
             <div className="row p-1">
               <label>To</label>
               <div className="col">
-                {" "}
                 <select
                   className="form-select"
                   onChange={(e) => selectDstChain(e)}
@@ -285,9 +275,8 @@ button for the locks.
                 </select>
               </div>
             </div>
-          </div>{" "}
+          </div>
           <div className="col">
-            {" "}
             <button
               style={{
                 width: "100%",
