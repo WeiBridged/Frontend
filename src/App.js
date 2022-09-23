@@ -7,7 +7,7 @@ import HomeWrap from "./pages/HomeWrap";
 
 import Navbar from "./components/Navbar";
 
-import LimitOrders from "./pages/LimitOrders";
+import Owner from "./pages/Owner";
 import DeBridge from "./components/DeBridge";
 import ChainlinkBridge from "./components/ChainlinkBridge";
 import Weibridged from "./components/Weibridged";
@@ -68,7 +68,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomeWrap />} />
           <Route path="/debridge" element={<DeBridge />} />
-          <Route path="/gaslesslimitorders" element={<LimitOrders />} />
+          <Route path="/owner_chainlink" element={<Owner />} />
           <Route path="/chainlink" element={<ChainlinkBridge />} />
           <Route path="/weibridged" element={<Weibridged />} />
         </Routes>

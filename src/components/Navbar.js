@@ -20,9 +20,6 @@ const Navbar = ({
       <a href="/#/weibridged" className="text-white hov">
         WeiBridged
       </a>
-      <a href="/#/gaslesslimitorders" className="text-white hov">
-        Gasless Limit Order
-      </a>
     </div>
   );
 };

@@ -9,12 +9,12 @@ import {
 } from "../constants/chainlinkABI";
 import ethereumIcon from "../assets/icons/meth.svg";
 import { DataContext } from "../DataContext";
-import Select from "react-select";
 import {
   chainOptions,
   chainOptionsGoerliOptimism,
   chainOptionsOwner,
 } from "../chainOptions";
+import Owner from "../pages/Owner";
 
 const ChainlinkBridge = () => {
   const [errorMsg, setErrorMsg] = useState("");
@@ -30,6 +30,8 @@ const ChainlinkBridge = () => {
   const [selectedAddLiquidityChain, setSelectedAddLiquidityChain] = useState(
     {}
   );
+
+  const [showOwner, setShowOwner] = useState(false);
 
   const [selectedWithdrawal, setSelectedWithdrawal] = useState();
 
@@ -57,9 +59,7 @@ button for the locks.
   useEffect(() => {
     const loadBlockchainData = async () => {
       const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
-      //const network = await web3.eth.net.getNetworkType();
-      //await window.ethereum.enable();
-      //const addressFromMetamask = await web3.eth.getAccounts();
+
       const chainId = await web3.eth.getChainId();
       console.log(chainId);
       if (chainId !== 5) {
@@ -149,8 +149,6 @@ button for the locks.
     }
   };
 
-  console.log(srcGoerliBridgeToMumbai, "Mumbai contract");
-
   const initiateSwap = (type) => {
     if (userAccountAddress) {
       if (srcChainSelected === "Optimism Goerli") {
@@ -163,11 +161,6 @@ button for the locks.
           from: userAccountAddress[0],
         });
       } else if (srcChainSelected === "Polygon Mumbai") {
-        console.log(
-          srcGoerliBridgeMumbai.methods,
-          goerliMumbaiAddress,
-          "BÄÄÄÄEÄEÄEÄ"
-        );
         web3.eth.sendTransaction({
           to: mumbaiToGoerliAddress,
           data: srcMumbaiToGoerliContract.methods
@@ -187,16 +180,14 @@ button for the locks.
             from: userAccountAddress[0],
           });
         } else if (selectedDstChain === "Polygon Mumbai")
-          console.log("GOT IN polygon mumbai", goerliMumbaiAddress);
-
-        web3.eth.sendTransaction({
-          to: goerliMumbaiAddress,
-          data: srcGoerliBridgeToMumbai.methods
-            .lockTokensForOptimism()
-            .encodeABI(),
-          value: 1003,
-          from: userAccountAddress[0],
-        });
+          web3.eth.sendTransaction({
+            to: goerliMumbaiAddress,
+            data: srcGoerliBridgeToMumbai.methods
+              .lockTokensForOptimism()
+              .encodeABI(),
+            value: 1003,
+            from: userAccountAddress[0],
+          });
       }
     } else {
       setErrorMsg(
@@ -245,144 +236,73 @@ button for the locks.
 
   return (
     <div className="container py-5 app-market">
-      <div class="alert alert-secondary" role="alert">
-        <div className="row p-1">
-          <h3>User</h3>
-        </div>
+      <button onClick={() => setShowOwner(true)} className="btn btn-primary">
+        Owner
+      </button>
+      {showOwner ? (
+        <Owner
+          chainOptionsOwner={chainOptionsOwner}
+          selectedWithdrawal={selectedWithdrawal}
+          setSelectedWithdrawal={setSelectedWithdrawal}
+          chainOptionsGoerliOptimism={chainOptionsGoerliOptimism}
+          selectedAddLiquidityChain={selectedAddLiquidityChain}
+          setSelectedAddLiquidityChain={setSelectedAddLiquidityChain}
+          clickAddLiqudity={clickAddLiqudity}
+          handleWithdrawClick={handleWithdrawClick}
+        ></Owner>
+      ) : (
+        <>
+          <div class="alert alert-secondary" role="alert">
+            <div className="row p-1">
+              <h3>User</h3>
+            </div>
 
-        <div className="row p-1">
-          <label>From</label>
+            <div className="row p-1">
+              <label>From</label>
 
-          <div className="col">
-            {" "}
-            <select className="form-select" onChange={selectSrcChain}>
-              <option>Choose...</option>
-              <option>Polygon Mumbai</option>
-              <option>Optimism Goerli</option>
-              <option>Ethereum Goerli</option>
-            </select>
-          </div>
-        </div>
-        <div className="row p-1">
-          <label>To</label>
-          <div className="col">
-            {" "}
-            <select className="form-select" onChange={(e) => selectDstChain(e)}>
-              {
-                // Render the options based on users first selection
-                options
-              }
-            </select>
-          </div>
-        </div>
-      </div>{" "}
-      <div className="col">
-        {" "}
-        <button
-          style={{
-            width: "100%",
-            marginBottom: 20,
-            backgroundColor: "cadetblue",
-          }}
-          onClick={() => initiateSwap()}
-          className="btn"
-        >
-          Lock 1000 WEI To Bridge
-        </button>
-      </div>
-      <div class="alert alert-secondary" role="alert">
-        <div className="row p-1">
-          <h3>Owner</h3>
-        </div>{" "}
-        <div className="row p-1">
-          <div className="col">
-            {" "}
-            <label for="cars">Network/Chain</label>
-            <Select
-              options={chainOptionsGoerliOptimism}
-              value={selectedAddLiquidityChain}
-              onChange={setSelectedAddLiquidityChain}
-            />
-          </div>
-          <label>Add Liqudity Amount</label>
-
+              <div className="col">
+                {" "}
+                <select className="form-select" onChange={selectSrcChain}>
+                  <option>Choose...</option>
+                  <option>Polygon Mumbai</option>
+                  <option>Optimism Goerli</option>
+                  <option>Ethereum Goerli</option>
+                </select>
+              </div>
+            </div>
+            <div className="row p-1">
+              <label>To</label>
+              <div className="col">
+                {" "}
+                <select
+                  className="form-select"
+                  onChange={(e) => selectDstChain(e)}
+                >
+                  {
+                    // Render the options based on users first selection
+                    options
+                  }
+                </select>
+              </div>
+            </div>
+          </div>{" "}
           <div className="col">
             {" "}
             <button
-              onClick={() => clickAddLiqudity()}
-              className="btn"
               style={{
                 width: "100%",
+                marginBottom: 20,
                 backgroundColor: "cadetblue",
-                marginBottom: 30,
               }}
+              onClick={() => initiateSwap()}
+              className="btn"
             >
-              Add Bridge Liquidity ETH
+              Lock 1000 WEI To Bridge
             </button>
           </div>
-        </div>
-        <div className="row p-1">
-          <div className="col">
-            {" "}
-            <label for="cars">
-              {" "}
-              Send WETH to this address [for Goerli to Mumbai bridge]
-            </label>
-            <a
-              style={{
-                width: "30%",
-                backgroundColor: "cadetblue",
-                marginLeft: "15%",
-              }}
-              href="https://goerli.etherscan.io/address/0x5BFef6EA00a2B15c97Ddd68b76F03200a010e627"
-              class="btn"
-            >
-              0x5BF...e627
-            </a>
-          </div>
-        </div>
-        <div
-          style={{
-            marginTop: 15,
-          }}
-          className="row p-1"
-        >
-          <div className="col">
-            {" "}
-            <label for="cars">
-              {" "}
-              Send MATIC to this address [for Mumbai to Goerli bridge]
-            </label>
-            <a
-              style={{
-                width: "30%",
-                backgroundColor: "cadetblue",
-                marginLeft: "15%",
-              }}
-              href=" https://goerli.etherscan.io/address/0x420E50B601E92933638b29DD273d8b692CdB3a9D"
-              class="btn"
-            >
-              0x420...3a9D
-            </a>
-          </div>
-        </div>
-        <div className="row p-1">
-          <div className="col">
-            {" "}
-            <label for="cars"> Withdraw</label>
-            <Select
-              options={chainOptionsOwner}
-              value={selectedWithdrawal}
-              onChange={setSelectedWithdrawal}
-            />
-          </div>
-          <div className="col">
-            <button onClick={handleWithdrawClick} className="btn btn-primary">
-              Withdraw
-            </button>
-          </div>
-        </div>
-      </div>{" "}
+        </>
+      )}
+
       {errorMsg ? (
         <div class="alert alert-error" role="alert">
           {errorMsg}
