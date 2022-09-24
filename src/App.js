@@ -13,8 +13,6 @@ import ChainlinkBridge from "./components/ChainlinkBridge";
 import Weibridged from "./components/Weibridged";
 import { ethers } from "ethers";
 
-const MyContext = React.createContext();
-
 function App() {
   const [userAccountAddress, setUserAccountAddress] = useState("");
   const [connectedAddrValue, setConnectedAddrValue] = useState(" ");

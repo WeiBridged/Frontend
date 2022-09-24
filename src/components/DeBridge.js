@@ -2,10 +2,7 @@ import "../index.scss";
 import React, { useState, useEffect, useCallback } from "react";
 
 import Select from "react-select";
-import polygonIcon from "../assets/icons/polygon.svg";
-import ethereumIcon from "../assets/icons/meth.svg";
-import arbIcon from "../assets/icons/arbitrum.svg";
-import avaxIcon from "../assets/icons/avax.svg";
+
 import { chainOptions } from "../chainOptions";
 import convert from "crypto-convert";
 

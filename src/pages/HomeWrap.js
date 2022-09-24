@@ -9,7 +9,6 @@ import aurIcon from "../assets/icons/aurora.png";
 import chronIcon from "../assets/icons/chronoss.png";
 import shardeumIcon from "../assets/icons/shardeum.png";
 
-import chainlinkIcon from "../assets/icons/chainlink.jpeg";
 import greenIcon from "../assets/icons/green.png";
 
 //aurora, poly, opt, oasis, shardeum, chronos, ETH mainnet,
