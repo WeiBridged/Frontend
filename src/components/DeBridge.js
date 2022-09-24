@@ -351,9 +351,13 @@ const DeBridge = () => {
         </div>
         {gasLimitHit ? (
           <div class="alert alert-sand" role="alert">
-            Gas limit is now hit! You can make your swap
+            Gas limit is now hit!
           </div>
-        ) : null}
+        ) : (
+          <div class="alert alert-error" role="alert">
+            Gas limit is not hit!
+          </div>
+        )}
       </div>
       {errorMsg || successMsg ? (
         <div
