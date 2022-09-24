@@ -46,8 +46,16 @@ export default function HomeWrap({ interval, searchText }) {
             <img src={polygonIcon} width={70} height={70}></img>{" "}
             <img src={optIcon} width={70} height={70}></img>{" "}
             <img src={aurIcon} width={70} height={70}></img>{" "}
-            <img src={chronIcon} width={70} height={70}></img>{" "}
-            <img src={chainlinkIcon} width={70} height={70}></img>{" "}
+            <img
+              src="https://cdn.discordapp.com/attachments/1017584616216985786/1023271622855102514/shardeum.png"
+              width={70}
+              height={70}
+            ></img>{" "}
+            <img
+              src="https://cdn.discordapp.com/attachments/1017584616216985786/1023272662677598290/cronos-removebg-preview.png"
+              width={75}
+              height={75}
+            ></img>{" "}
             <img src={greenIcon} width={70} height={70}></img>{" "}
             <img src={avaxIcon} width={70} height={70}></img>{" "}
             <img src={arbIcon} width={70} height={70}></img>{" "}
