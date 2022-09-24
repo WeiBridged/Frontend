@@ -204,8 +204,8 @@ const DeBridge = () => {
         connectedChainId === 43114 ||
         connectedChainId === 42161
       ) {
-        setDstChainTokenOutRecipient(userAccountAddress);
-        setDstChainFallbackAddress(userAccountAddress);
+        setDstChainTokenOutRecipient(userAccountAddress[0]);
+        setDstChainFallbackAddress(userAccountAddress[0]);
       } else {
         setErrorMsg(
           "Source chain chosen does not match connected chain. Please connect to chainId " +
@@ -250,7 +250,7 @@ const DeBridge = () => {
   if (inputGasPrice !== 0 && gasData <= inputGasPrice) {
     renderGasBox = (
       <div class="alert alert-success" role="alert">
-        Gas limit is now hit!
+        Gas limit is hit! You can now perform the swap.
       </div>
     );
   } else if (inputGasPrice === 0) {
@@ -262,6 +262,8 @@ const DeBridge = () => {
       </div>
     );
   }
+
+  console.log(dstChainTokenOutRecipient, "dst chain recip");
 
   return (
     <div className="container py-5 app-market">
