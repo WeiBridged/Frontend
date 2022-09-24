@@ -62,7 +62,6 @@ const DeBridge = () => {
 
   const fetchApiData = async () => {
     const gasInWei = await web3.eth.getGasPrice();
-    console.log(gasInWei, "gas in weii");
 
     //Sets the raw gas state
     console.log("REFETCH!");

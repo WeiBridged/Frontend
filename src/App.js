@@ -20,10 +20,10 @@ function App() {
   const handleConnectMetamask = async () => {
     const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
     // const network = await web3.eth.net.getNetworkType();
-    App.web3Provider = window.ethereum;
-    console.log(window.ethereum, "wats dis");
+
     await window.ethereum.enable();
     const provider = new ethers.providers.Web3Provider(window.ethereum);
+    App.web3Provider = window.ethereum;
 
     //Fetch account data:
     const accountFromMetaMask = await web3.eth.getAccounts();
