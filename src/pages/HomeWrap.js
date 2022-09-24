@@ -6,7 +6,9 @@ import avaxIcon from "../assets/icons/avax.svg";
 import polygonIcon from "../assets/icons/polygon.svg";
 import optIcon from "../assets/icons/optimism.svg";
 import aurIcon from "../assets/icons/aurora.png";
-import chronIcon from "../assets/icons/chronos.png";
+import chronIcon from "../assets/icons/chronoss.png";
+import shardeumIcon from "../assets/icons/shardeum.png";
+
 import chainlinkIcon from "../assets/icons/chainlink.jpeg";
 import greenIcon from "../assets/icons/green.png";
 
@@ -46,17 +48,9 @@ export default function HomeWrap({ interval, searchText }) {
             <img src={optIcon} width={70} height={70}></img>{" "}
             <img src={polygonIcon} width={70} height={70}></img>{" "}
             <img src={aurIcon} width={70} height={70}></img>{" "}
-            <img
-              src="https://cdn.discordapp.com/attachments/1017584616216985786/1023272662677598290/cronos-removebg-preview.png"
-              width={75}
-              height={75}
-            ></img>{" "}
+            <img src={chronIcon} width={75} height={75}></img>{" "}
             <img src={greenIcon} width={70} height={70}></img>{" "}
-            <img
-              src="https://cdn.discordapp.com/attachments/1017584616216985786/1023271622855102514/shardeum.png"
-              width={70}
-              height={70}
-            ></img>{" "}
+            <img src={shardeumIcon} width={70} height={70}></img>{" "}
             <img src={ethereumIcon} width={70} height={70}></img>{" "}
             <img src={avaxIcon} width={70} height={70}></img>{" "}
             <img src={arbIcon} width={70} height={70}></img>{" "}
