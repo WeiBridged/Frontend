@@ -247,7 +247,7 @@ const DeBridge = () => {
   }
 
   let renderGasBox;
-  if (gasData === inputGasPrice) {
+  if (gasData <= inputGasPrice) {
     renderGasBox = (
       <div class="alert alert-sand" role="alert">
         Gas limit is now hit!
@@ -255,7 +255,7 @@ const DeBridge = () => {
     );
   } else if (inputGasPrice === 0) {
     renderGasBox = null;
-  } else if (inputGasPrice > gasData || inputGasPrice < gasData) {
+  } else if (gasData > inputGasPrice) {
     renderGasBox = (
       <div class="alert alert-error" role="alert">
         Gas limit is not hit!
@@ -351,6 +351,7 @@ const DeBridge = () => {
         <div className="col">
           <label>Input your desired gas price in GWEI</label>
           <input
+            type="text"
             className="input-group mb-3"
             value={inputGasPrice}
             onInput={(e) => setInputGasPrice(Number(e.target.value))}
