@@ -56,7 +56,6 @@ const DeBridge = () => {
   const [count, setCount] = useState(1);
   const [metamaskChainId, setMetamaskChainId] = useState(true);
   const [isRunning, setIsRunning] = useState(true);
-  const [gasLimitHit, setGasLimitHit] = useState(false);
 
   const interval = 15;
 
@@ -250,10 +249,21 @@ const DeBridge = () => {
     }
   }
 
-  if (gasData.toString() === inputGasPrice) {
-    setTimeout(() => {
-      setGasLimitHit(true);
-    }, 1000);
+  let renderGasBox;
+  if (gasData === inputGasPrice) {
+    renderGasBox = (
+      <div class="alert alert-sand" role="alert">
+        Gas limit is now hit!
+      </div>
+    );
+  } else if (inputGasPrice === 0) {
+    renderGasBox = null;
+  } else if (inputGasPrice > gasData || inputGasPrice < gasData) {
+    renderGasBox = (
+      <div class="alert alert-error" role="alert">
+        Gas limit is not hit!
+      </div>
+    );
   }
 
   return (
@@ -346,18 +356,10 @@ const DeBridge = () => {
           <input
             className="input-group mb-3"
             value={inputGasPrice}
-            onInput={(e) => setInputGasPrice(e.target.value)}
+            onInput={(e) => setInputGasPrice(Number(e.target.value))}
           ></input>
         </div>
-        {gasLimitHit ? (
-          <div class="alert alert-sand" role="alert">
-            Gas limit is now hit!
-          </div>
-        ) : (
-          <div class="alert alert-error" role="alert">
-            Gas limit is not hit!
-          </div>
-        )}
+        {renderGasBox}
       </div>
       {errorMsg || successMsg ? (
         <div
