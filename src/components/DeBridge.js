@@ -250,7 +250,8 @@ const DeBridge = () => {
   if (inputGasPrice !== 0 && gasData <= inputGasPrice) {
     renderGasBox = (
       <div class="alert alert-success" role="alert">
-        Gas limit is hit! You can now perform the swap.
+        Gas limit is hit! Click the "Swap" button with the "From" and "To"
+        chains set with the input value amount.
       </div>
     );
   } else if (inputGasPrice === 0) {
