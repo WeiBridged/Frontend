@@ -12,10 +12,24 @@ import convert from "crypto-convert";
 import Web3 from "web3";
 import { DataContext } from "../DataContext";
 
-function YourIcon() {
-  return <img src={polygonIcon} width={20} height={20}></img>;
-}
+//Custom hook to create interval that is clearable
+function useInterval(callback, interval) {
+  const savedCallback = React.useRef();
 
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  useEffect(() => {
+    function tick() {
+      savedCallback.current();
+    }
+    if (interval !== null) {
+      let id = setInterval(tick, interval * 1000);
+      return () => clearInterval(id);
+    }
+  }, [interval]);
+}
 const DeBridge = () => {
   const [estimateSwapData, setEstimateSwapData] = useState({});
   const [selectedFromChain, setSelectedFromChain] = useState({});
@@ -37,20 +51,37 @@ const DeBridge = () => {
   );
   const [dstChainFallbackAddress, setDstChainFallbackAddress] = useState({});
 
+  const [gasData, setGasData] = useState([]);
+  const [count, setCount] = useState(1);
+  const [isRunning, setIsRunning] = useState(true);
+  const interval = 15;
+
   const { userAccountAddress, setUserAccountAddress } =
     React.useContext(DataContext);
   let web3 = new Web3(window.web3.currentProvider);
 
-  //IMPLEMENTAION FROM DEBRIDGE DOCS: https://docs.debridge.finance/deswap/api-quick-start-guide
-  /*   
-  srcChainId specifies the Ethereum chain id (1) as the chain swap is being initiated
-srcChainTokenIn specifies the USDT token address (0xdAC17F958D2ee523a2206206994597C13D831ec7)
-srcChainTokenInAmount specifies the desired input amount: since USDT token contract uses 6 decimals (the number of digits that come after the decimal place when displaying token values on-screen), the simple math: 50 * 10^6 leads to 50000000 as the value representing 50 USDT tokens
-dstChainId specified the Polygon network chain id (137) as the target (destination) chain
-dstChainTokenOut specifies the address of the target token; since MATIC is not a typical ERC-20 token represented by a smart contract but rather a native coin (a one-of-a-kind token within each EVM chain), we use a null (or zero) address to distinguish it from other tokens.
-dstChainTokenOutRecipient, the address target tokens should be transferred to after the swap, and
-dstChainFallbackAddress, the address target or intermediary tokens should be transferred in case of a failed swap (e.g., a swap may fail due to slippage constraints). 
-*/
+  const fetchApiData = async () => {
+    const gasInWei = await web3.eth.getGasPrice();
+    console.log(gasInWei, "gas in weii");
+
+    //Sets the raw gas state
+    console.log("REFETCH!");
+    setGasData(gasInWei);
+  };
+
+  //Fetch on mounting component
+  useEffect(() => {
+    fetchApiData();
+  }, []);
+
+  //Fetch continously during the interval set
+  useInterval(
+    () => {
+      fetchApiData();
+      setCount(count + 1);
+    },
+    isRunning ? interval : null
+  );
 
   const fetchSwapEstimation = useCallback(async () => {
     try {
@@ -213,6 +244,7 @@ dstChainFallbackAddress, the address target or intermediary tokens should be tra
 
   return (
     <div className="container py-5 app-market">
+      <p>Latest gas price {gasData} WEI</p>
       <div class="alert alert-secondary" role="alert">
         <div className="row p-1">
           <label>From</label>
