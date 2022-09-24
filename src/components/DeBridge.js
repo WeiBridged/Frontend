@@ -56,6 +56,7 @@ const DeBridge = () => {
   const [count, setCount] = useState(1);
   const [metamaskChainId, setMetamaskChainId] = useState(true);
   const [isRunning, setIsRunning] = useState(true);
+  const [gasLimitHit, setGasLimitHit] = useState(false);
 
   const interval = 15;
 
@@ -249,31 +250,14 @@ const DeBridge = () => {
     }
   }
 
-  if (gasData === inputGasPrice) {
-    alert("Gas limit hit! You can try and swap now. ");
+  if (gasData.toString() === inputGasPrice) {
+    setTimeout(() => {
+      setGasLimitHit(true);
+    }, 1000);
   }
 
   return (
     <div className="container py-5 app-market">
-      <div class="alert alert-secondary" role="alert">
-        <div className="row p-1">
-          <div className="col">
-            <p>
-              Latest gas price <b>{gasData}</b> GWEI on chainid{" "}
-              <b>{metamaskChainId}</b>
-              {}
-            </p>
-          </div>
-          <div className="col">
-            <label>Input your desired gas price in GWEI</label>
-            <input
-              className="input-group mb-3"
-              value={inputGasPrice}
-              onInput={(e) => setInputGasPrice(e.target.value)}
-            ></input>
-          </div>
-        </div>
-      </div>{" "}
       <div class="alert alert-secondary" role="alert">
         <div className="row p-1">
           <label>From</label>
@@ -344,6 +328,32 @@ const DeBridge = () => {
         >
           Swap
         </button>
+      </div>
+      <div className="row p-1">
+        <div className="col">
+          <p>
+            Latest gas price <b>{gasData}</b> GWEI on chainid{" "}
+            <b>{metamaskChainId}</b>
+          </p>
+          <p>
+            {" "}
+            Please note deBridge will convert gas token on source to destination
+            chain automatically
+          </p>
+        </div>
+        <div className="col">
+          <label>Input your desired gas price in GWEI</label>
+          <input
+            className="input-group mb-3"
+            value={inputGasPrice}
+            onInput={(e) => setInputGasPrice(e.target.value)}
+          ></input>
+        </div>
+        {gasLimitHit ? (
+          <div class="alert alert-sand" role="alert">
+            Gas limit is now hit! You can make your swap
+          </div>
+        ) : null}
       </div>
       {errorMsg || successMsg ? (
         <div
