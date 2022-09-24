@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Footer from "../components/Footer";
+import ethereumIcon from "../assets/icons/meth.svg";
+import arbIcon from "../assets/icons/arbitrum.svg";
+import avaxIcon from "../assets/icons/avax.svg";
+import polygonIcon from "../assets/icons/polygon.svg";
+import optIcon from "../assets/icons/optimism.svg";
+import aurIcon from "../assets/icons/aurora.png";
+import chronIcon from "../assets/icons/chronos.png";
+import chainlinkIcon from "../assets/icons/chainlink.jpeg";
+import greenIcon from "../assets/icons/green.png";
+
+//aurora, poly, opt, oasis, shardeum, chronos, ETH mainnet,
 
 export default function HomeWrap({ interval, searchText }) {
   return (
@@ -14,8 +25,8 @@ export default function HomeWrap({ interval, searchText }) {
           <div className="cell-lg-full ingress-content">
             <h4>Connect. Bridge. Done.</h4>
             <p>
-              WeiBridged is a secure and well-trusted bridge platform that will
-              enable you to reach over 5 different chains in the crypto space.
+              We Bridge Your Wei and Wrap ERC-20 Tokens on EVM Compatiable
+              Chains.
             </p>
           </div>
         </div>
@@ -24,7 +35,23 @@ export default function HomeWrap({ interval, searchText }) {
       <div className="container py-5 app-market">
         <div class="alert alert-secondary" role="alert">
           This service allows you to use 3 different bridges, the Chainlink Mock
-          Bridge, the WeiBridged and the deBridge through their swap API.
+          Bridge, the WeiBridged and the deBridge through their swap API. We use
+          in total 7 different chains/projects to build out the infrastructure
+          of our bridge.
+          <div className="align-middle text-center ">
+            <br></br>
+            <p>
+              <b>Weibridged + deBridge deployed EVM chains include:</b>
+            </p>
+            <img src={polygonIcon} width={70} height={70}></img>{" "}
+            <img src={optIcon} width={70} height={70}></img>{" "}
+            <img src={aurIcon} width={70} height={70}></img>{" "}
+            <img src={chronIcon} width={70} height={70}></img>{" "}
+            <img src={chainlinkIcon} width={70} height={70}></img>{" "}
+            <img src={greenIcon} width={70} height={70}></img>{" "}
+            <img src={avaxIcon} width={70} height={70}></img>{" "}
+            <img src={arbIcon} width={70} height={70}></img>{" "}
+          </div>
         </div>
         <div className="row">
           <div className="col">

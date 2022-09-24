@@ -54,7 +54,9 @@ const DeBridge = () => {
   const [gasData, setGasData] = useState([]);
   const [inputGasPrice, setInputGasPrice] = useState(0);
   const [count, setCount] = useState(1);
+  const [metamaskChainId, setMetamaskChainId] = useState(true);
   const [isRunning, setIsRunning] = useState(true);
+
   const interval = 15;
 
   const { userAccountAddress, setUserAccountAddress } =
@@ -67,12 +69,16 @@ const DeBridge = () => {
 
     //Sets the raw gas state
     console.log("REFETCH!");
-    setGasData(gasInWei);
+    //Set gas data in GWEI instead
+    setGasData(gasInWei / 1000000000);
   };
 
   //Fetch on mounting component
   useEffect(() => {
     fetchApiData();
+    web3.eth.getChainId().then((result) => {
+      setMetamaskChainId(result);
+    });
   }, []);
 
   //Fetch continously during the interval set
@@ -244,7 +250,7 @@ const DeBridge = () => {
   }
 
   if (gasData === inputGasPrice) {
-    alert("You can now swap with your desired gas input!");
+    alert("Gas limit hit! You can try and swap now. ");
   }
 
   return (
@@ -253,11 +259,13 @@ const DeBridge = () => {
         <div className="row p-1">
           <div className="col">
             <p>
-              Latest gas price <b>{gasData}</b> WEI
+              Latest gas price <b>{gasData}</b> GWEI on chainid{" "}
+              <b>{metamaskChainId}</b>
+              {}
             </p>
           </div>
           <div className="col">
-            <label>Input your desired gas price in WEI</label>
+            <label>Input your desired gas price in GWEI</label>
             <input
               className="input-group mb-3"
               value={inputGasPrice}
