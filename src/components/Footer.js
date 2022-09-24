@@ -31,7 +31,10 @@ const Footer = () => {
             <div className="logo-bottom">
               <ul className="nav flex-column">
                 <li className="nav-item">
-                  <a className="nav-link px-0" href="/getting-started/">
+                  <a
+                    className="nav-link px-0"
+                    href="https://github.com/WeiBridged"
+                  >
                     Github
                   </a>
                 </li>

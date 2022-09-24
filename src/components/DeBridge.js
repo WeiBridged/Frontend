@@ -52,6 +52,7 @@ const DeBridge = () => {
   const [dstChainFallbackAddress, setDstChainFallbackAddress] = useState({});
 
   const [gasData, setGasData] = useState([]);
+  const [inputGasPrice, setInputGasPrice] = useState(0);
   const [count, setCount] = useState(1);
   const [isRunning, setIsRunning] = useState(true);
   const interval = 15;
@@ -242,9 +243,29 @@ const DeBridge = () => {
     }
   }
 
+  if (gasData === inputGasPrice) {
+    alert("You can now swap with your desired gas input!");
+  }
+
   return (
     <div className="container py-5 app-market">
-      <p>Latest gas price {gasData} WEI</p>
+      <div class="alert alert-secondary" role="alert">
+        <div className="row p-1">
+          <div className="col">
+            <p>
+              Latest gas price <b>{gasData}</b> WEI
+            </p>
+          </div>
+          <div className="col">
+            <label>Input your desired gas price in WEI</label>
+            <input
+              className="input-group mb-3"
+              value={inputGasPrice}
+              onInput={(e) => setInputGasPrice(e.target.value)}
+            ></input>
+          </div>
+        </div>
+      </div>{" "}
       <div class="alert alert-secondary" role="alert">
         <div className="row p-1">
           <label>From</label>
