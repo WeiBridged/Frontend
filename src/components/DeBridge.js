@@ -249,7 +249,7 @@ const DeBridge = () => {
   let renderGasBox;
   if (inputGasPrice !== 0 && gasData <= inputGasPrice) {
     renderGasBox = (
-      <div class="alert alert-sand" role="alert">
+      <div class="alert alert-success" role="alert">
         Gas limit is now hit!
       </div>
     );
